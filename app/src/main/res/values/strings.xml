@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Turdus Portfolio</string>
+    <string name="swapButtonDescription">Alterar ordem de exibição</string>
+    <string name="filterButtonDescription">Alterar indexador do filtro</string>
+    <string name="card_filter_confirm_button">Confirmar</string>
+    <string name="card_filter_cancel_button">Cancelar</string>
+    <string name="choose_sort_index">Alterar ordernação por:</string>
+    <string name="average_price_label">Preço médio: %s</string>
+    <string name="amount_unit_assert_label">Qtd: %s</string>
+</resources>
