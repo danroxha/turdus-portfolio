@@ -1,14 +1,9 @@
 package com.example.turdusportfolio.ui.components
 
-import android.util.Log
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,11 +26,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
@@ -43,18 +33,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.turdusportfolio.R
-import com.example.turdusportfolio.model.state.CardFinanceUIState
-import com.example.turdusportfolio.model.state.CardHeaderUIState
+import com.example.turdusportfolio.model.state.CardUiState
 import com.example.turdusportfolio.model.state.FinancialAsset
 import com.example.turdusportfolio.model.state.RadioChooseButtonUIState
-import com.example.turdusportfolio.ui.state.CardFinanceViewModel
 import com.example.turdusportfolio.ui.theme.TurdusPortfolioTheme
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import java.text.NumberFormat
 
 
 private val MAX_HEIGHT_CARD_FINANCE = 400.dp
-private val MIN_HEIGHT_CARD_FINANCE = 100.dp
+private val MIN_HEIGHT_CARD_FINANCE = 0.dp
 
 data class CardHeader(
+    val options: List<RadioChooseButtonUIState>,
+    val visible: StateFlow<Boolean> = MutableStateFlow(false),
     val onSelectAction: (RadioChooseButtonUIState) -> Unit,
     val onCancelAction: () -> Unit,
     val onConfirmAction: () -> Unit,
@@ -62,19 +55,20 @@ data class CardHeader(
     val onToggleFilter: () -> Unit,
 )
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun CardFinanceActive(
-    state: CardFinanceUIState,
-    group: String,
+fun CardFinanceAsset(
+    state: CardUiState,
     header: CardHeader,
-    suspendTitle: String = "",
+    title: StateFlow<String> = MutableStateFlow(""),
     modifier: Modifier = Modifier
 ) {
     Column {
-        if(suspendTitle.isNotBlank()) {
+        if(title.value.isNotBlank()) {
             Text(
-                text = suspendTitle,
-                style = MaterialTheme.typography.headlineMedium,
+                text = title.value,
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .padding(horizontal = 10.dp)
@@ -86,16 +80,10 @@ fun CardFinanceActive(
                 .padding(horizontal = 10.dp)
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-
+                modifier = Modifier.fillMaxWidth()
             ) {
-                CardHeader(
-                    state = state,
-                    group = group,
-                    actions = header,
-                )
-                CardBody(state.activeList)
+                CardHeader(properties = header)
+                CardBody(items = state.list)
                 CardFooter("R$ 0,00")
             }
         }
@@ -106,20 +94,17 @@ fun CardFinanceActive(
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun CardHeader(
-    state: CardFinanceUIState,
-    group: String,
-    actions: CardHeader,
+    properties: CardHeader,
 ) {
-    val ICON_SIZE = 30.dp
-
+    val ICON_SIZE = 25.dp
 
     Row(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary)
-            .padding(4.dp)
+            .padding(horizontal = 4.dp)
     ) {
         Spacer(modifier = Modifier.weight(1f))
-        IconButton(onClick = actions.onSwapSortFilter) {
+        IconButton(onClick = properties.onSwapSortFilter) {
             Icon(
                 imageVector = Icons.Default.SwapVert,
                 contentDescription = stringResource(id = R.string.swapButtonDescription),
@@ -128,7 +113,8 @@ private fun CardHeader(
                     .size(ICON_SIZE)
             )
         }
-        IconButton(onClick = actions.onConfirmAction) {
+
+        IconButton(onClick = properties.onToggleFilter) {
             Icon(
                 imageVector = Icons.Outlined.FilterList,
                 contentDescription = stringResource(id = R.string.filterButtonDescription),
@@ -137,22 +123,13 @@ private fun CardHeader(
                     .size(ICON_SIZE)
             )
         }
-        Spacer(modifier = Modifier.padding(end = 10.dp))
 
-        AnimatedVisibility(
-            visible = state
-                .cardStateSelectedFilter
-                .getOrDefault(group, CardHeaderUIState(options = listOf())).open,
-            enter = scaleIn() + expandVertically(),
-            exit = scaleOut() + shrinkVertically()
-
-        ) {
+        AnimatedVisibility(visible = properties.visible.value) {
             CardFilterSelector(
-                state = state,
-                group = group,
-                onSelectAction = actions.onSelectAction,
-                onConfirmAction = actions.onConfirmAction,
-                onCancelAction =  actions.onCancelAction,
+                options = properties.options,
+                onSelectAction = properties.onSelectAction,
+                onConfirmAction = properties.onConfirmAction,
+                onCancelAction = properties.onCancelAction,
             )
         }
     }
@@ -167,12 +144,9 @@ private fun CardBody(items: List<FinancialAsset>) {
             .background(MaterialTheme.colorScheme.primary)
     ){
         LazyColumn {
-            itemsIndexed(items = items) { index, value ->
-                Spacer(modifier = Modifier.padding(8.dp))
-                CardItemFinance(value)
-                if(items.size - 1 == index) {
-                    Spacer(modifier = Modifier.padding(8.dp))
-                }
+            itemsIndexed(items = items) { index, item ->
+                CardItemFinance(item)
+                Spacer(modifier = Modifier.padding(4.dp))
             }
         }
     }
@@ -187,7 +161,7 @@ private fun CardFooter(labelFooter: String) {
     ) {
         Text(
             text = labelFooter,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            color = MaterialTheme.colorScheme.onPrimary,
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier
                 .padding(8.dp)
@@ -211,19 +185,31 @@ private fun CardItemFinance(financialAsserts: FinancialAsset, modifier: Modifier
             ){
                 Text(
                     text = financialAsserts.name,
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "${financialAsserts.totalInvested}")
+                Text(
+                    text = "${financialAsserts.totalInvested}",
+                    color = MaterialTheme.colorScheme.onPrimary,
+                )
             }
             Row(
                 modifier = Modifier
                     .padding(horizontal = 10.dp)
                     .padding(bottom = 10.dp)
             ) {
-                Text(stringResource(R.string.average_price_label, financialAsserts.totalInvested))
+                Text(
+                    text = stringResource(R.string.average_price_label, financialAsserts.totalInvested),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
                 Spacer(modifier = Modifier.weight(1f))
-                Text(stringResource(R.string.amount_unit_assert_label, financialAsserts.amount))
+                Text(
+                    text = stringResource(R.string.amount_unit_assert_label, financialAsserts.amount),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
             }
         }
     }
@@ -234,16 +220,14 @@ data class FloatDialogUiState(
 
 @Composable
 private fun CardFilterSelector(
-    state: CardFinanceUIState,
-    group: String,
+    options: List<RadioChooseButtonUIState>,
     onConfirmAction: () -> Unit = {},
     onCancelAction: () -> Unit = {},
     onSelectAction: (RadioChooseButtonUIState) -> Unit = {},
-) {
-    val chooseOptions = state.cardStateSelectedFilter.getOrDefault(group, CardHeaderUIState(options = listOf()))
-    Log.i("CD", "$group -> $chooseOptions -> ${state.cardStateSelectedFilter}")
+    ) {
+
     AlertDialog(
-        onDismissRequest = { /*openDialog = false*/ },
+        onDismissRequest = onCancelAction,
         icon = {
             Icon(
                 imageVector = Icons.Filled.FilterList,
@@ -256,7 +240,7 @@ private fun CardFilterSelector(
         },
         text = { ListMenuRadioChoose(
             onSelected = onSelectAction,
-            chooseOptionsGroup = chooseOptions.options,
+            chooseOptionsGroup = options,
         )},
         confirmButton = {
             TextButton(onClick = onConfirmAction) {

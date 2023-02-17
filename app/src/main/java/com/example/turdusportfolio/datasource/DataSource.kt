@@ -1,18 +1,61 @@
 package com.example.turdusportfolio.datasource
 
 import com.example.turdusportfolio.model.state.FinancialAsset
+import com.example.turdusportfolio.model.state.GoalData
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.math.BigDecimal
+import java.util.Currency
 
 object DataSource {
     val transactions = listOf<String>()
-    val financialAsserts = listOf<FinancialAsset>(
-        FinancialAsset(name = "MXRF11", averagePrice = BigDecimal.valueOf(10.07), totalInvested = BigDecimal.valueOf(554.95), amount = 55, group = "FII"),
-        FinancialAsset(name = "BCFF11", averagePrice = BigDecimal.valueOf(70.89), totalInvested = BigDecimal.valueOf(317.35), amount = 5, group = "FII"),
-        FinancialAsset(name = "HGLG11", averagePrice = BigDecimal.valueOf(165.88), totalInvested = BigDecimal.valueOf(323.00), amount = 2, group = "FII"),
-        FinancialAsset(name = "HGLG11", averagePrice = BigDecimal.valueOf(165.88), totalInvested = BigDecimal.valueOf(323.00), amount = 2, group = "FII"),
-        FinancialAsset(name = "HGLG11", averagePrice = BigDecimal.valueOf(165.88), totalInvested = BigDecimal.valueOf(323.00), amount = 2, group = "FII"),
-        FinancialAsset(name = "BBCS3", averagePrice = BigDecimal.valueOf(165.88), totalInvested = BigDecimal.valueOf(323.00), amount = 2, group = "Ação"),
-        FinancialAsset(name = "PETR3", averagePrice = BigDecimal.valueOf(165.88), totalInvested = BigDecimal.valueOf(323.00), amount = 2, group = "Ação"),
-        FinancialAsset(name = "TAEE3", averagePrice = BigDecimal.valueOf(165.88), totalInvested = BigDecimal.valueOf(323.00), amount = 2, group = "Ação"),
+    val financialAsserts = listOf(
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "MXRF11", averagePriceDecimal = BigDecimal.valueOf(10.07), totalInvestedDecimal = BigDecimal.valueOf(554.95), amount = 55, group = "FIIs"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "MXRF11", averagePriceDecimal = BigDecimal.valueOf(10.07), totalInvestedDecimal = BigDecimal.valueOf(554.95), amount = 55, group = "FIIs"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "MXRF11", averagePriceDecimal = BigDecimal.valueOf(10.07), totalInvestedDecimal = BigDecimal.valueOf(554.95), amount = 55, group = "FIIs"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "MXRF11", averagePriceDecimal = BigDecimal.valueOf(10.07), totalInvestedDecimal = BigDecimal.valueOf(554.95), amount = 55, group = "FIIs"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "MXRF11", averagePriceDecimal = BigDecimal.valueOf(10.07), totalInvestedDecimal = BigDecimal.valueOf(554.95), amount = 55, group = "FIIs"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "MXRF11", averagePriceDecimal = BigDecimal.valueOf(10.07), totalInvestedDecimal = BigDecimal.valueOf(554.95), amount = 55, group = "FIIs"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "MXRF11", averagePriceDecimal = BigDecimal.valueOf(10.07), totalInvestedDecimal = BigDecimal.valueOf(554.95), amount = 55, group = "FIIs"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "MXRF11", averagePriceDecimal = BigDecimal.valueOf(10.07), totalInvestedDecimal = BigDecimal.valueOf(554.95), amount = 55, group = "FIIs"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "MXRF11", averagePriceDecimal = BigDecimal.valueOf(10.07), totalInvestedDecimal = BigDecimal.valueOf(554.95), amount = 55, group = "FIIs"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "MXRF11", averagePriceDecimal = BigDecimal.valueOf(10.07), totalInvestedDecimal = BigDecimal.valueOf(554.95), amount = 55, group = "FIIs"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "MXRF11", averagePriceDecimal = BigDecimal.valueOf(10.07), totalInvestedDecimal = BigDecimal.valueOf(554.95), amount = 55, group = "FIIs"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "MXRF11", averagePriceDecimal = BigDecimal.valueOf(10.07), totalInvestedDecimal = BigDecimal.valueOf(554.95), amount = 55, group = "FIIs"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "MXRF11", averagePriceDecimal = BigDecimal.valueOf(10.07), totalInvestedDecimal = BigDecimal.valueOf(554.95), amount = 55, group = "FIIs"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "BBCS3", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "Ações"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "BBCS3", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "Ações"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "BBCS3", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "Ações"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "BBCS3", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "Ações"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "BBCS3", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "Ações"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "BBCS3", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "Ações"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "BBCS3", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "Ações"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "BBCS3", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "Ações"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "BBCS3", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "Ações"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "BBCS3", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "Ações"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "BBCS3", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "Ações"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "BBCS3", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "Ações"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "BBCS3", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "Ações"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "BBCS3", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "Ações"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "BBCS3", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "Ações"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "IVVB11", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "ETFs"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "IVVB11", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "ETFs"),
+        FinancialAsset(currency = Currency.getInstance("BRL"), name = "IVVB11", averagePriceDecimal = BigDecimal.valueOf(165.88), totalInvestedDecimal = BigDecimal.valueOf(323.00), amount = 2, group = "ETFs"),
+    )
+
+    val goals = listOf(
+        GoalData(current = MutableStateFlow( BigDecimal(5000.0)), position = MutableStateFlow(1), goal = MutableStateFlow(BigDecimal(10.0))),
+        GoalData(current = MutableStateFlow( BigDecimal(5000.0)), position = MutableStateFlow(1), goal = MutableStateFlow(BigDecimal(50.0))),
+        GoalData(current = MutableStateFlow( BigDecimal(5000.0)), position = MutableStateFlow(1), goal = MutableStateFlow(BigDecimal(100.0))),
+        GoalData(current = MutableStateFlow( BigDecimal(5000.0)), position = MutableStateFlow(1), goal = MutableStateFlow(BigDecimal(200.0))),
+        GoalData(current = MutableStateFlow( BigDecimal(5000.0)), position = MutableStateFlow(1), goal = MutableStateFlow(BigDecimal(400.0))),
+        GoalData(current = MutableStateFlow( BigDecimal(5000.0)), position = MutableStateFlow(1), goal = MutableStateFlow(BigDecimal(700.0))),
+        GoalData(current = MutableStateFlow( BigDecimal(5000.0)), position = MutableStateFlow(1), goal = MutableStateFlow(BigDecimal(1700.0))),
+        GoalData(current = MutableStateFlow(BigDecimal(5000.0)), position = MutableStateFlow(1), goal = MutableStateFlow(BigDecimal(4_990.0))),
+        GoalData(current = MutableStateFlow(BigDecimal(5000.0)), position = MutableStateFlow(1), goal = MutableStateFlow(BigDecimal(5_000.0))),
+        GoalData(current = MutableStateFlow(BigDecimal(5000.0)), position = MutableStateFlow(1), goal = MutableStateFlow(BigDecimal(5_001.0))),
+        GoalData(current = MutableStateFlow(BigDecimal(5000.0)), position = MutableStateFlow(1), goal = MutableStateFlow(BigDecimal(6_000.0))),
+        GoalData(current = MutableStateFlow(BigDecimal(5000.0)), position = MutableStateFlow(1), goal = MutableStateFlow(BigDecimal(10_000.0))),
+        GoalData(current = MutableStateFlow(BigDecimal(5000.0)), position = MutableStateFlow(1), goal = MutableStateFlow(BigDecimal(100_000.0))),
+        GoalData(current = MutableStateFlow(BigDecimal(5000.0)), position = MutableStateFlow(1), goal = MutableStateFlow(BigDecimal(1_000_000.0))),
     )
 }

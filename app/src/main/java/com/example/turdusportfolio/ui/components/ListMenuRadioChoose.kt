@@ -1,6 +1,7 @@
 package com.example.turdusportfolio.ui.components
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
@@ -11,21 +12,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import com.example.turdusportfolio.model.state.RadioChooseButtonUIState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun ListMenuRadioChoose(
     chooseOptionsGroup: List<RadioChooseButtonUIState>,
-    onSelected: (RadioChooseButtonUIState) -> Unit = {}
+    onSelected: (RadioChooseButtonUIState) -> Unit = {},
 ) {
 
     LazyColumn {
         items(items = chooseOptionsGroup) { option ->
             Row(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .selectable(
                         selected = option.selected,
                         onClick = { onSelected(option) },
@@ -38,7 +43,7 @@ fun ListMenuRadioChoose(
                     onClick = { onSelected(option) },
                     modifier = Modifier.semantics { contentDescription = option.contentDescription }
                 )
-                Text(text = option.label)
+                Text(text = stringResource(id = option.label))
             }
         }
     }

@@ -3,7 +3,7 @@ package com.example.turdusportfolio
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.turdusportfolio.ui.screen.RouterApp
+import com.example.turdusportfolio.ui.presentation.RouterApp
 import com.example.turdusportfolio.ui.theme.TurdusPortfolioTheme
 
 class MainActivity : ComponentActivity() {

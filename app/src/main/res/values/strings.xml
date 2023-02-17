@@ -4,7 +4,18 @@
     <string name="filterButtonDescription">Alterar indexador do filtro</string>
     <string name="card_filter_confirm_button">Confirmar</string>
     <string name="card_filter_cancel_button">Cancelar</string>
-    <string name="choose_sort_index">Alterar ordernação por:</string>
+    <string name="choose_sort_index">Ordenar por:</string>
     <string name="average_price_label">Preço médio: %s</string>
     <string name="amount_unit_assert_label">Qtd: %s</string>
+    <string name="financial_asset_by_name">nome do ativo</string>
+    <string name="financial_asset_by_price">preço do ativo</string>
+    <string name="financial_asset_by_percentage_in_portfolio">% na carteira</string>
+    <string name="financial_asset_by_amount">quantidade</string>
+    <string name="goal_title_screen">Metas</string>
+    <string name="add_transaction_title">Add transaction</string>
+    <string name="more_options_title">More Options</string>
+    <string name="completed_label">Completed</string>
+    <string name="in_progress_label">In Progress</string>
+    <string name="patrimony_label">Patrimony</string>
+    <string name="goals_label">Goals</string>
 </resources>
