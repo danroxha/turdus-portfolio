@@ -14,9 +14,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.RemoveCircle
 import androidx.compose.material.icons.outlined.RemoveCircle
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -28,7 +25,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -138,55 +134,56 @@ fun GoalItem(
             .fillMaxWidth()
             .padding(horizontal = 6.dp, vertical = 6.dp)
             .clip(MaterialTheme.shapes.medium)
-            .background(MaterialTheme.colorScheme.primary)
+            .background(MaterialTheme.colorScheme.primary),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Row {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(
-                    imageVector = Icons.Outlined.RemoveCircle,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimary,
-                )
-            }
 
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = 6.dp, vertical = 6.dp)
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+                imageVector = Icons.Outlined.RemoveCircle,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimary,
+            )
+        }
+
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 6.dp, vertical = 6.dp)
+        ) {
+            Text(
+                text = "1º R$ ${goal.goal.value}",
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+            )
+
+            val percentage by remember { mutableStateOf(goal.complete) }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "1º R$ ${goal.goal.value}",
+
+                LinearProgressIndicator(
                     color = MaterialTheme.colorScheme.onPrimary,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
+                    trackColor = MaterialTheme.colorScheme.onSecondary,
+                    progress = min(1f, percentage),
+                    modifier = Modifier
+                        .height(8.dp)
+                        .clip(MaterialTheme.shapes.medium)
+                        .weight(2f)
+
                 )
-
-                val percentage by remember { mutableStateOf(goal.complete) }
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    LinearProgressIndicator(
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        trackColor = MaterialTheme.colorScheme.onSecondary,
-                        progress = min(1f, percentage),
-                        modifier = Modifier
-                            .height(8.dp)
-                            .clip(MaterialTheme.shapes.medium)
-                            .weight(2f)
-
-                    )
-                    Spacer(modifier = Modifier.padding(horizontal = 4.dp))
-                    Text(
-                        text = "${goal.percentage}",
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier
-                            .weight(1f),
-                    )
-                }
+                Spacer(modifier = Modifier.padding(horizontal = 4.dp))
+                Text(
+                    text = "${goal.percentage}",
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier
+                        .weight(1f),
+                )
             }
         }
+
     }
 }
 
