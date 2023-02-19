@@ -90,8 +90,6 @@ fun GoalScreen(
             FloatingActionButton(onClick = { /*TODO*/ },
                 containerColor =  MaterialTheme.colorScheme.onPrimary,
                 contentColor = MaterialTheme.colorScheme.onSecondary,
-                modifier = Modifier
-                    .padding(end = 20.dp, bottom = 20.dp)
             ) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = null)
             }
@@ -142,7 +140,7 @@ fun GoalItem(
                 .padding(horizontal = 6.dp, vertical = 6.dp)
         ) {
             Text(
-                text = "1º R$ ${goal.goal.value}",
+                text = "1º R$ ${goal.goal.collectAsState().value}",
                 color = MaterialTheme.colorScheme.onPrimary,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
