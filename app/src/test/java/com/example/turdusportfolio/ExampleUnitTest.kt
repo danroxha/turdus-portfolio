@@ -1,4 +1,4 @@
-package com.example.turdusportfolio
+package com.turdusportfolio
 
 import org.junit.Test
 

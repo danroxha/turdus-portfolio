@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.turdusportfolio'
+    namespace 'com.turdusportfolio'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.turdusportfolio"
+        applicationId "com.turdusportfolio"
         minSdk 24
         targetSdk 33
         versionCode 1
