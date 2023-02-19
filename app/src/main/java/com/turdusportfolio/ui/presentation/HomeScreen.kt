@@ -194,7 +194,7 @@ fun GraphComponent(
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier
-                                .size(40.dp)
+                                .size(MaterialTheme.typography.displayLarge.fontSize.value.dp)
                         )
                     }
 
@@ -250,7 +250,7 @@ fun GraphComponent(
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier
-                                .size(40.dp)
+                                .size(MaterialTheme.typography.displaySmall.fontSize.value.dp)
                         )
                     }
 

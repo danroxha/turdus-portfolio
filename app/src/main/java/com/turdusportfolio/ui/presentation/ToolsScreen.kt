@@ -154,7 +154,7 @@ fun CardTool(
                contentDescription = details.contentDescription,
                tint = MaterialTheme.colorScheme.onPrimary,
                modifier = Modifier
-                   .size(80.dp)
+                   .size(MaterialTheme.typography.displayMedium.fontSize.value.dp)
            )
            Text(
                text = details.text,
