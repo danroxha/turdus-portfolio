@@ -88,35 +88,27 @@ fun GoalScreen(
                 },
             )
         },
-        content = {padding ->
-
-            Box(
+        floatingActionButton = {
+            FloatingActionButton(onClick = { /*TODO*/ },
+                containerColor =  MaterialTheme.colorScheme.onPrimary,
+                contentColor = MaterialTheme.colorScheme.onSecondary,
                 modifier = Modifier
-                    .fillMaxSize()
-
+                    .padding(end = 20.dp, bottom = 20.dp)
+            ) {
+                Icon(imageVector = Icons.Filled.Add, contentDescription = null)
+            }
+        },
+        content = {padding ->
+            LazyColumn(
+                Modifier.padding(padding)
             ) {
 
-                LazyColumn(
-                    Modifier.padding(padding)
-                ) {
-
-                    items(items = uiState.value) { goal ->
-                        GoalItem(
-                            goal = goal,
-                            editAction = {},
-                            deleteAction = {}
-                        )
-                    }
-                }
-
-                FloatingActionButton(onClick = { /*TODO*/ },
-                    containerColor =  MaterialTheme.colorScheme.onPrimary,
-                    contentColor = MaterialTheme.colorScheme.onSecondary,
-                    modifier = Modifier
-                        .padding(end = 20.dp, bottom = 20.dp)
-                        .align(Alignment.BottomEnd)
-                ) {
-                    Icon(imageVector = Icons.Filled.Add, contentDescription = null)
+                items(items = uiState.value) { goal ->
+                    GoalItem(
+                        goal = goal,
+                        editAction = {},
+                        deleteAction = {}
+                    )
                 }
             }
         }

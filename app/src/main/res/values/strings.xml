@@ -18,4 +18,5 @@
     <string name="in_progress_label">In Progress</string>
     <string name="patrimony_label">Patrimony</string>
     <string name="goals_label">Goals</string>
+    <string name="calculator_title_screen">Tools</string>
 </resources>

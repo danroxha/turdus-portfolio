@@ -6,10 +6,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MoreHoriz
+import androidx.compose.material.icons.filled.TipsAndUpdates
 import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material.icons.outlined.AddCircleOutline
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.MoreHoriz
+import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -31,6 +33,7 @@ enum class Router(val title: String) {
     HomeScreen("Home"),
     GoalScreen("Goal"),
     AddTransactionScreen("Add"),
+    ToolsScreen("Tools"),
     MoreScreen("More");
 }
 
@@ -75,6 +78,12 @@ fun BottomNavigationBar(navController: NavHostController) {
                 icon = Icons.Filled.AddCircle,
                 iconSelected = Icons.Outlined.AddCircleOutline,
                 route = Router.AddTransactionScreen.name
+            ),
+            BottomNavItem(
+                label = Router.ToolsScreen.title,
+                icon = Icons.Default.TipsAndUpdates,
+                iconSelected = Icons.Outlined.TipsAndUpdates,
+                route = Router.ToolsScreen.name
             ),
             BottomNavItem(
                 label = Router.MoreScreen.title,
@@ -129,6 +138,9 @@ fun NavHostContainer(
             }
             composable(Router.GoalScreen.name) {
                 GoalScreen { navController.popBackStack() }
+            }
+            composable(Router.ToolsScreen.name) {
+                ToolsScreen()
             }
         }
     )
