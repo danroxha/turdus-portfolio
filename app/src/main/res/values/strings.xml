@@ -19,4 +19,11 @@
     <string name="patrimony_label">Patrimony</string>
     <string name="goals_label">Goals</string>
     <string name="calculator_title_screen">Tools</string>
+    <string name="compound_interest_calculator">compound interest calculator</string>
+    <string name="benjamin_graham_calculator">Benjamin Graham calculator</string>
+    <string name="report">Report</string>
+    <string name="benchmarking">Benchmarking</string>
+    <string name="dividends">Dividends</string>
+    <string name="goals">Goals</string>
+    <string name="arrow_back_icon_button">arrow back icon button</string>
 </resources>

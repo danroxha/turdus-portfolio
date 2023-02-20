@@ -4,15 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Calculate
@@ -38,12 +35,44 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.turdusportfolio.R
 import com.turdusportfolio.ui.theme.TurdusPortfolioTheme
 
+enum class ToolsRouter(val title: String) {
+    CompoundInterestCalculatorScreen(title = "compound interest calculator"),
+    ToolsItemsSelectorScreen(title = "tools items selector")
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToolsScreen() {
+
+    val navController = rememberNavController()
+
+    NavHost(
+        navController = navController,
+        startDestination = ToolsRouter.ToolsItemsSelectorScreen.name,
+        builder = {
+            composable(ToolsRouter.CompoundInterestCalculatorScreen.name) {
+                CompoundInterestCalculatorScreen {
+                    navController.popBackStack()
+                }
+            }
+
+            composable(ToolsRouter.ToolsItemsSelectorScreen.name) {
+                ToolsItemsSelectorScreen(navController = navController)
+            }
+        }
+    )
+}
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+fun ToolsItemsSelectorScreen(
+    navController: NavController
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -65,17 +94,21 @@ fun ToolsScreen() {
             )
         },
     ) {
-        paddingValues ->
+            paddingValues ->
+
         val toolsCard = listOf(
             CardToolDetails(
                 imageVector = Icons.Outlined.Calculate,
                 contentDescription = "compound interest calculator icon",
-                text = "compound interest calculator",
+                text = stringResource(R.string.compound_interest_calculator),
+                onClick = {
+                    navController.navigate(route = ToolsRouter.CompoundInterestCalculatorScreen.name)
+                }
             ),
             CardToolDetails(
                 imageVector = Icons.Outlined.QueryStats,
                 contentDescription = "benjamin graham calculator icon",
-                text = "Benjamin Graham calculator",
+                text = stringResource(R.string.benjamin_graham_calculator),
             ),
             CardToolDetails(
                 imageVector = Icons.Outlined.Difference,
@@ -85,22 +118,22 @@ fun ToolsScreen() {
             CardToolDetails(
                 imageVector = Icons.Outlined.ReceiptLong,
                 contentDescription = "report icon",
-                text = "Report",
+                text = stringResource(R.string.report),
             ),
             CardToolDetails(
                 imageVector = Icons.Outlined.DataExploration,
                 contentDescription = "benchmarking icon",
-                text = "Benchmarking",
+                text = stringResource(R.string.benchmarking),
             ),
             CardToolDetails(
                 imageVector = Icons.Outlined.PriceCheck,
                 contentDescription = "dividends icon",
-                text = "Dividends",
+                text = stringResource(R.string.dividends),
             ),
             CardToolDetails(
                 imageVector = Icons.Outlined.TrackChanges,
                 contentDescription = "goals icon",
-                text = "Goals",
+                text = stringResource(R.string.goals),
             )
         )
         LazyVerticalGrid(

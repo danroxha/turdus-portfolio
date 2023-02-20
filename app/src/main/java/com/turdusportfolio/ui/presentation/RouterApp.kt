@@ -40,7 +40,7 @@ enum class Router(val title: String) {
 @Composable
 fun RouterApp(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
-    navController.currentBackStackEntry
+
     Scaffold(
         content = { padding ->
             NavHostContainer(navController = navController, padding = padding)
