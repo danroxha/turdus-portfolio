@@ -93,13 +93,12 @@ fun ToolsItemsSelectorScreen(
                 }
             )
         },
-    ) {
-            paddingValues ->
+    ) { paddingValues ->
 
         val toolsCard = listOf(
             CardToolDetails(
                 imageVector = Icons.Outlined.Calculate,
-                contentDescription = "compound interest calculator icon",
+                contentDescription = stringResource(R.string.compound_interest_calculator_icon),
                 text = stringResource(R.string.compound_interest_calculator),
                 onClick = {
                     navController.navigate(route = ToolsRouter.CompoundInterestCalculatorScreen.name)
@@ -107,32 +106,32 @@ fun ToolsItemsSelectorScreen(
             ),
             CardToolDetails(
                 imageVector = Icons.Outlined.QueryStats,
-                contentDescription = "benjamin graham calculator icon",
+                contentDescription = stringResource(R.string.benjamin_graham_calculator_icon),
                 text = stringResource(R.string.benjamin_graham_calculator),
             ),
             CardToolDetails(
                 imageVector = Icons.Outlined.Difference,
-                contentDescription = "difference assets icon",
-                text = "Difference assets",
+                contentDescription = stringResource(R.string.compare_icon),
+                text = stringResource(R.string.compare),
             ),
             CardToolDetails(
                 imageVector = Icons.Outlined.ReceiptLong,
-                contentDescription = "report icon",
+                contentDescription = stringResource(R.string.report_icon),
                 text = stringResource(R.string.report),
             ),
             CardToolDetails(
                 imageVector = Icons.Outlined.DataExploration,
-                contentDescription = "benchmarking icon",
+                contentDescription = stringResource(R.string.benchmarking_icon),
                 text = stringResource(R.string.benchmarking),
             ),
             CardToolDetails(
                 imageVector = Icons.Outlined.PriceCheck,
-                contentDescription = "dividends icon",
+                contentDescription = stringResource(R.string.dividends_icon),
                 text = stringResource(R.string.dividends),
             ),
             CardToolDetails(
                 imageVector = Icons.Outlined.TrackChanges,
-                contentDescription = "goals icon",
+                contentDescription = stringResource(R.string.goals_icon),
                 text = stringResource(R.string.goals),
             )
         )

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,10 +18,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.EventRepeat
+import androidx.compose.material.icons.filled.ManageSearch
 import androidx.compose.material.icons.filled.MonetizationOn
 import androidx.compose.material.icons.filled.Percent
 import androidx.compose.material.icons.filled.Today
 import androidx.compose.material.icons.filled.TouchApp
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -44,6 +48,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
@@ -240,12 +245,44 @@ fun CompoundInterestCalculatorScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     item() {
-                        Row(
+                        Column(
                             modifier = Modifier
                                 .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
                         ) {
+                            Row {
+                                Icon(
+                                    imageVector = Icons.Default.ManageSearch,
+                                    contentDescription = stringResource(R.string.result_icon),
+                                    tint = MaterialTheme.colorScheme.onPrimary,
+                                )
+
+                                Spacer(modifier = Modifier.padding(horizontal = 4.dp))
+
+                                Text(
+                                    text = stringResource(R.string.result),
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.onPrimary,
+                                )
+                            }
+
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                CardResult(title = stringResource(R.string.final_total_amount), subtitle = "R$ 80.291,29", modifier = Modifier.weight(1f))
+
+                                Spacer(modifier = Modifier.padding(horizontal = 4.dp))
+
+                                CardResult(title = stringResource(R.string.total_amount_invested), subtitle = "R$ 65.000,00", modifier = Modifier.weight(1f))
+
+                                Spacer(modifier = Modifier.padding(horizontal = 4.dp))
+
+                                CardResult(title = stringResource(R.string.total_in_interest), subtitle = "R$ 15.291,29", modifier = Modifier.weight(1f))
+
+                            }
+
                             PieChartSimple(
                                 radius = 350f,
                                 labelColor = MaterialTheme.colorScheme.onPrimary,
@@ -301,6 +338,42 @@ data class CompoundInterestSummary(
 )
 
 @Composable
+fun CardResult(title: String, subtitle: String, modifier: Modifier = Modifier) {
+    Card(
+        colors = CardDefaults
+            .cardColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+            ),
+        modifier = modifier
+            .padding(vertical = 4.dp, horizontal = 2.dp)
+            .height(80.dp)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = "$title",
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+            Text(
+                text = "$subtitle",
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        }
+    }
+}
+
+@Composable
 fun TableHeader() {
     Row(
         modifier = Modifier
@@ -312,7 +385,7 @@ fun TableHeader() {
     ) {
         Text(
             text = "Ano",
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onPrimary,
             textAlign = TextAlign.Center,
             modifier = Modifier
@@ -328,7 +401,7 @@ fun TableHeader() {
         )
         Text(
             text = "Juros",
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onPrimary,
             textAlign = TextAlign.Center,
             modifier = Modifier
@@ -345,7 +418,7 @@ fun TableHeader() {
 
         Text(
             text = "Saldo",
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onPrimary,
             textAlign = TextAlign.Center,
             modifier = Modifier
@@ -424,10 +497,6 @@ fun <T>TableComponent(
     }
 }
 
-
-
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextFieldAndLabel(
@@ -447,7 +516,7 @@ fun TextFieldAndLabel(
     ){
         Text(
             text = text,
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier
                 .fillMaxWidth()
@@ -457,6 +526,7 @@ fun TextFieldAndLabel(
             placeholder = {
                 Text(
                     text = placeholder,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimary.copy(
                         alpha = MaterialTheme.colorScheme.onPrimary.alpha - 0.6f,
                     ),
@@ -469,7 +539,7 @@ fun TextFieldAndLabel(
             },
 
             visualTransformation = VisualTransformation.None,
-            textStyle = MaterialTheme.typography.bodyLarge,
+            textStyle = MaterialTheme.typography.bodyMedium,
             shape = MaterialTheme.shapes.medium,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = MaterialTheme.colorScheme.onPrimary,
@@ -477,7 +547,7 @@ fun TextFieldAndLabel(
                 cursorColor = MaterialTheme.colorScheme.tertiary,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                focusedLeadingIconColor = MaterialTheme.colorScheme.tertiary,
+                focusedLeadingIconColor = MaterialTheme.colorScheme.onSecondary,
                 unfocusedLeadingIconColor = MaterialTheme.colorScheme.onPrimary,
                 focusedSupportingTextColor = Color.Red,
 
@@ -492,9 +562,7 @@ fun TextFieldAndLabel(
                 }
                 .fillMaxWidth()
         )
-
     }
-
 }
 
 @Composable

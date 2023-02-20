@@ -26,4 +26,17 @@
     <string name="dividends">Dividends</string>
     <string name="goals">Goals</string>
     <string name="arrow_back_icon_button">arrow back icon button</string>
+    <string name="compare">Compare</string>
+    <string name="compare_icon">compare icon</string>
+    <string name="report_icon">report icon</string>
+    <string name="benchmarking_icon">benchmarking icon</string>
+    <string name="dividends_icon">dividends icon</string>
+    <string name="goals_icon">goals icon</string>
+    <string name="benjamin_graham_calculator_icon">benjamin graham calculator icon</string>
+    <string name="compound_interest_calculator_icon">compound interest calculator icon</string>
+    <string name="final_total_amount">Final total amount</string>
+    <string name="total_amount_invested">Total amount invested</string>
+    <string name="total_in_interest">Total in interest</string>
+    <string name="result">Result</string>
+    <string name="result_icon">result icon</string>
 </resources>
