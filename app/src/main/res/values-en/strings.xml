@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Turdus Portfolio</string>
     <string name="swapButtonDescription">Change display sort</string>
     <string name="filterButtonDescription">Change filter index</string>
     <string name="card_filter_confirm_button">Confirm</string>
@@ -22,7 +22,6 @@
     <string name="compound_interest_calculator">Compund interest calculator</string>
     <string name="benjamin_graham_calculator">Benjamin Graham calculator</string>
     <string name="report">Report</string>
-    <string name="benchmarking" translatable="false">Benchmarking</string>
     <string name="dividends">Dividends</string>
     <string name="goals">Goals</string>
     <string name="arrow_back_icon_button">Arrow back Icon Button</string>
