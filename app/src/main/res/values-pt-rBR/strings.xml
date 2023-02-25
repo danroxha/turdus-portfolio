@@ -38,4 +38,8 @@
     <string name="total_in_interest">Total em juros</string>
     <string name="result">Resultado</string>
     <string name="result_icon">Icone de resultado</string>
+    <string name="home">Inicio</string>
+    <string name="add">Registrar</string>
+    <string name="tools">Útil</string>
+    <string name="more">Mais</string>
 </resources>

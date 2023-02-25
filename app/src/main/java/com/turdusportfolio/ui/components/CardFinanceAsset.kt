@@ -36,6 +36,8 @@ import com.turdusportfolio.R
 import com.turdusportfolio.model.state.CardUiState
 import com.turdusportfolio.model.state.FinancialAsset
 import com.turdusportfolio.model.state.RadioChooseButtonUIState
+import com.turdusportfolio.ui.theme.TurdusSizeDefault
+import com.turdusportfolio.ui.theme.TurdusPaddingDefault
 import com.turdusportfolio.ui.theme.TurdusPortfolioTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -70,13 +72,13 @@ fun CardFinanceAsset(
                 color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .padding(horizontal = 10.dp)
+                    .padding(horizontal = TurdusPaddingDefault.largePadding)
             )
         }
         Card(
             elevation = CardDefaults.cardElevation(6.dp),
             modifier = modifier
-                .padding(horizontal = 10.dp)
+                .padding(horizontal = TurdusPaddingDefault.largePadding)
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth()
@@ -95,12 +97,10 @@ fun CardFinanceAsset(
 private fun CardHeader(
     properties: CardHeader,
 ) {
-    val ICON_SIZE = 25.dp
-
     Row(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary)
-            .padding(horizontal = 4.dp)
+            .padding(horizontal = TurdusPaddingDefault.smallPadding)
     ) {
         Spacer(modifier = Modifier.weight(1f))
         IconButton(onClick = properties.onSwapSortFilter) {
@@ -109,7 +109,7 @@ private fun CardHeader(
                 contentDescription = stringResource(id = R.string.swapButtonDescription),
                 tint = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier
-                    .size(ICON_SIZE)
+                    .size(TurdusSizeDefault.middleSize)
             )
         }
 
@@ -119,7 +119,7 @@ private fun CardHeader(
                 contentDescription = stringResource(id = R.string.filterButtonDescription),
                 tint = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier
-                    .size(ICON_SIZE)
+                    .size(TurdusSizeDefault.middleSize)
             )
         }
 
@@ -145,7 +145,7 @@ private fun CardBody(items: List<FinancialAsset>) {
         LazyColumn {
             itemsIndexed(items = items) { index, item ->
                 CardItemFinance(item)
-                Spacer(modifier = Modifier.padding(4.dp))
+                Spacer(modifier = Modifier.padding(TurdusPaddingDefault.smallPadding))
             }
         }
     }
@@ -163,7 +163,7 @@ private fun CardFooter(labelFooter: String) {
             color = MaterialTheme.colorScheme.onPrimary,
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier
-                .padding(8.dp)
+                .padding(TurdusPaddingDefault.middlePadding)
         )
     }
 }
@@ -173,14 +173,14 @@ private fun CardItemFinance(financialAsserts: FinancialAsset, modifier: Modifier
     Row {
         Column(
             modifier = Modifier
-                .padding(horizontal = 10.dp)
+                .padding(horizontal = TurdusPaddingDefault.largePadding)
                 .clip(MaterialTheme.shapes.medium)
                 .background(MaterialTheme.colorScheme.secondary)
         ) {
             Row (
                 modifier = Modifier
-                    .padding(horizontal = 10.dp)
-                    .padding(top = 10.dp)
+                    .padding(horizontal = TurdusPaddingDefault.largePadding)
+                    .padding(top = TurdusPaddingDefault.largePadding)
             ){
                 Text(
                     text = financialAsserts.name,
@@ -195,8 +195,8 @@ private fun CardItemFinance(financialAsserts: FinancialAsset, modifier: Modifier
             }
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 10.dp)
-                    .padding(bottom = 10.dp)
+                    .padding(horizontal = TurdusPaddingDefault.largePadding)
+                    .padding(bottom = TurdusPaddingDefault.largePadding)
             ) {
                 Text(
                     text = stringResource(R.string.average_price_label, financialAsserts.totalInvested),
@@ -261,7 +261,7 @@ fun CardFinanceActivePreview() {
     TurdusPortfolioTheme {
 //        Column {
 //            CardFinanceActive(suspendTitle = "FIIs", items = DataSource.financialAsserts)
-//            Spacer(modifier = Modifier.padding(bottom = 10.dp))
+//            Spacer(modifier = Modifier.padding(bottom = TurdusPaddingDefault.largePadding))
 //            CardFinanceActive(suspendTitle = "Ações", items = DataSource.financialAsserts)
 //        }
     }

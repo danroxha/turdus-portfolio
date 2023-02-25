@@ -1,6 +1,7 @@
 package com.turdusportfolio.ui.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
@@ -11,21 +12,23 @@ import androidx.compose.material.icons.outlined.AddCircleOutline
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.MoreHoriz
 import androidx.compose.material.icons.outlined.TipsAndUpdates
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.turdusportfolio.R
 import com.turdusportfolio.ui.components.BottomNavigation
 import com.turdusportfolio.ui.components.BottomNavigationItem
+import com.turdusportfolio.ui.theme.TurdusDefault
 
 enum class Router(val title: String) {
 
@@ -60,32 +63,33 @@ fun RouterApp(modifier: Modifier = Modifier) {
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
     BottomNavigation(
-        elevation = CardDefaults.cardElevation()
+        modifier = Modifier.
+            height(TurdusDefault.ContainerHeight)
     ){
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
         val bottomNavItems = listOf(
             BottomNavItem(
-                label = Router.HomeScreen.title,
+                label = stringResource(R.string.home),
                 icon = Icons.Filled.Home,
                 iconSelected = Icons.Outlined.Home,
                 route = Router.HomeScreen.name
             ),
             BottomNavItem(
-                label = Router.AddTransactionScreen.title,
+                label = stringResource(R.string.add),
                 icon = Icons.Filled.AddCircle,
                 iconSelected = Icons.Outlined.AddCircleOutline,
                 route = Router.AddTransactionScreen.name
             ),
             BottomNavItem(
-                label = Router.ToolsScreen.title,
+                label = stringResource(R.string.tools),
                 icon = Icons.Default.TipsAndUpdates,
                 iconSelected = Icons.Outlined.TipsAndUpdates,
                 route = Router.ToolsScreen.name
             ),
             BottomNavItem(
-                label = Router.MoreScreen.title,
+                label = stringResource(R.string.more),
                 icon = Icons.Filled.MoreHoriz,
                 iconSelected = Icons.Outlined.MoreHoriz,
                 route = Router.MoreScreen.name

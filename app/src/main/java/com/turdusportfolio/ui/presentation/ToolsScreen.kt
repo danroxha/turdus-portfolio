@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -40,7 +42,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.turdusportfolio.R
+import com.turdusportfolio.ui.theme.TurdusDefault
+import com.turdusportfolio.ui.theme.TurdusPaddingDefault
 import com.turdusportfolio.ui.theme.TurdusPortfolioTheme
+import com.turdusportfolio.ui.theme.TurdusSizeDefault
 
 enum class ToolsRouter(val title: String) {
     CompoundInterestCalculatorScreen(title = "compound interest calculator"),
@@ -81,15 +86,21 @@ fun ToolsItemsSelectorScreen(
                     titleContentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 modifier = Modifier
+                    .height(TurdusDefault.ContainerHeight)
                     .background(MaterialTheme.colorScheme.onPrimary),
                 title = {
-                    Text(
-                        text = stringResource(R.string.calculator_title_screen),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        Text(
+                            text = stringResource(R.string.calculator_title_screen),
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onPrimary,
+                        )
+                    }
                 }
             )
         },
@@ -140,9 +151,9 @@ fun ToolsItemsSelectorScreen(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(TurdusPaddingDefault.middlePadding),
+            verticalArrangement = Arrangement.spacedBy(TurdusPaddingDefault.middlePadding),
+            contentPadding = PaddingValues(TurdusPaddingDefault.middlePadding)
         ) {
 
             itemsIndexed(items = toolsCard) {index, details ->
@@ -169,7 +180,7 @@ fun CardTool(
 ) {
     Button(
         modifier = modifier
-            .size(150.dp),
+            .size(TurdusSizeDefault.extraLargeSize),
         onClick = details.onClick,
         shape = MaterialTheme.shapes.medium,
     ) {
@@ -179,7 +190,7 @@ fun CardTool(
            modifier = Modifier
                .fillMaxSize()
                .background(MaterialTheme.colorScheme.primary)
-               .padding(8.dp)
+               .padding(TurdusPaddingDefault.middlePadding)
        ) {
            Icon(
                imageVector = details.imageVector,

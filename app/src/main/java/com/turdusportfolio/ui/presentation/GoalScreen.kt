@@ -1,9 +1,11 @@
 package com.turdusportfolio.ui.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,6 +42,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.turdusportfolio.R
 import com.turdusportfolio.model.state.GoalData
 import com.turdusportfolio.ui.state.GoalViewModel
+import com.turdusportfolio.ui.theme.TurdusDefault
+import com.turdusportfolio.ui.theme.TurdusPaddingDefault
 import com.turdusportfolio.ui.theme.TurdusPortfolioTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.lang.Float.min
@@ -63,26 +67,31 @@ fun GoalScreen(
                     titleContentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 modifier = Modifier
+                    .height(TurdusDefault.ContainerHeight)
                     .background(MaterialTheme.colorScheme.onPrimary),
                 navigationIcon = {
                     IconButton(
                         onClick = previousAction) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "arrow back icon button",
+                            contentDescription = stringResource(id = R.string.arrow_back_icon_button),
                             tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 },
                 title = {
-                    Text(
-                        text = stringResource(R.string.goal_title_screen),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        textAlign = TextAlign.Center,
+                    Row(
                         modifier = Modifier
-                            .fillMaxWidth()
-                    )
+                            .fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        Text(
+                            text = stringResource(R.string.goal_title_screen),
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onPrimary,
+                        )
+                    }
                 },
             )
         },
@@ -157,12 +166,12 @@ fun GoalItem(
                     trackColor = MaterialTheme.colorScheme.onSecondary,
                     progress = min(1f, percentage),
                     modifier = Modifier
-                        .height(8.dp)
+                        .height(TurdusPaddingDefault.middlePadding)
                         .clip(MaterialTheme.shapes.medium)
                         .weight(2f)
 
                 )
-                Spacer(modifier = Modifier.padding(horizontal = 4.dp))
+                Spacer(modifier = Modifier.padding(horizontal = TurdusPaddingDefault.smallPadding))
                 Text(
                     text = "${goal.percentage}",
                     color = MaterialTheme.colorScheme.onPrimary,

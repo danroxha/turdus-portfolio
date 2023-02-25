@@ -24,6 +24,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.turdusportfolio.ui.theme.TurdusDefault
+import com.turdusportfolio.ui.theme.TurdusPaddingDefault
 
 
 data class MenuItem(
@@ -36,12 +38,13 @@ data class MenuItem(
 
 @Composable
 fun BottomNavigation(
-    elevation: CardElevation,
-    content: @Composable (RowScope.() -> Unit)
+    modifier: Modifier = Modifier,
+    content: @Composable (RowScope.() -> Unit),
 ) {
     BottomAppBar(
         contentColor = MaterialTheme.colorScheme.onPrimary,
         containerColor = MaterialTheme.colorScheme.primary,
+        modifier = modifier,
         content = {
             Row(
                 content = content,
@@ -79,7 +82,7 @@ fun BottomNavigationItem(
                 indication = null,
                 onClick = onClick
             )
-            .width(60.dp),
+            .width(TurdusDefault.ContainerWidth),
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -92,7 +95,7 @@ fun BottomNavigationItem(
                     .fillMaxWidth()
                     .clip(MaterialTheme.shapes.extraLarge)
                     .background(color = colorsSchemaSelected)
-                    .padding(horizontal = 10.dp, vertical = 2.dp)
+                    .padding(horizontal = TurdusPaddingDefault.largePadding, vertical = TurdusPaddingDefault.extraSmallPadding)
 
             )
             if(label.isNotBlank()) {

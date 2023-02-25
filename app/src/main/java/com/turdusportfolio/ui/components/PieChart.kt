@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.turdusportfolio.ui.theme.TurdusPaddingDefault
 import com.turdusportfolio.ui.theme.TurdusPortfolioTheme
 import java.lang.Integer.max
 import java.math.RoundingMode
@@ -560,9 +561,9 @@ fun PieChartPreview() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray)
-                .padding(5.dp)
+                .padding(TurdusPaddingDefault.smallPadding)
             ,
-            verticalArrangement = Arrangement.spacedBy(30.dp),
+            verticalArrangement = Arrangement.spacedBy(space = TurdusPaddingDefault.extraLargePadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             Text(
@@ -571,7 +572,7 @@ fun PieChartPreview() {
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 30.dp)
+                modifier = Modifier.padding(top = TurdusPaddingDefault.extraLargePadding)
             )
             Box(
                 modifier = Modifier
@@ -628,9 +629,9 @@ fun PieChartSimplePreview() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray)
-                .padding(5.dp)
+                .padding(TurdusPaddingDefault.smallPadding)
             ,
-            verticalArrangement = Arrangement.spacedBy(30.dp),
+            verticalArrangement = Arrangement.spacedBy(TurdusPaddingDefault.extraLargePadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             Text(
@@ -639,7 +640,7 @@ fun PieChartSimplePreview() {
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 30.dp)
+                modifier = Modifier.padding(top = TurdusPaddingDefault.extraLargePadding)
             )
             Box(
                 modifier = Modifier
