@@ -10,6 +10,7 @@
     <string name="financial_asset_by_name">nome do ativo</string>
     <string name="financial_asset_by_price">preço do ativo</string>
     <string name="financial_asset_by_percentage_in_portfolio">% na carteira</string>
+    <string name="percent_in_portfolio">%% na carteira: %.2f%%</string>
     <string name="financial_asset_by_amount">quantidade</string>
     <string name="goal_title_screen">Metas</string>
     <string name="add_transaction_title">Adicionar transação</string>
@@ -42,4 +43,9 @@
     <string name="add">Registrar</string>
     <string name="tools">Útil</string>
     <string name="more">Mais</string>
+    <string name="unfold_button_description">"Icone do botão expansão ou contração "</string>
+    <string name="expanded_icon_button_description">"Icone do botão expansão ou contração "</string>
+    <string name="valuation_label">valorização: %.2f%%</string>
+    <string name="current_price_label">Preço atual: %.2f</string>
+    <string name="percent_in_subgroup">%% no grupo: %.2f%%</string>
 </resources>

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,8 +15,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.Lens
 import androidx.compose.material.icons.filled.SwapVert
+import androidx.compose.material.icons.filled.UnfoldLess
+import androidx.compose.material.icons.filled.UnfoldMore
 import androidx.compose.material.icons.outlined.FilterList
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -26,44 +34,62 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.turdusportfolio.R
+import com.turdusportfolio.datasource.DataSource
 import com.turdusportfolio.model.state.CardUiState
 import com.turdusportfolio.model.state.FinancialAsset
 import com.turdusportfolio.model.state.RadioChooseButtonUIState
+import com.turdusportfolio.ui.state.CardGroupVisibleDetailsViewModel
 import com.turdusportfolio.ui.theme.TurdusSizeDefault
 import com.turdusportfolio.ui.theme.TurdusPaddingDefault
 import com.turdusportfolio.ui.theme.TurdusPortfolioTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.util.UUID
 
 
-private val MAX_HEIGHT_CARD_FINANCE = 400.dp
+private val MAX_HEIGHT_CARD_FINANCE = 500.dp
 private val MIN_HEIGHT_CARD_FINANCE = 0.dp
 
-data class CardHeader(
+data class CardHeaderProperties(
     val options: List<RadioChooseButtonUIState>,
     val visible: Boolean = false,
-    val onSelectAction: (RadioChooseButtonUIState) -> Unit,
-    val onCancelAction: () -> Unit,
-    val onConfirmAction: () -> Unit,
-    val onSwapSortFilter: () -> Unit,
-    val onToggleFilter: () -> Unit,
+    val onSelectAction: (RadioChooseButtonUIState) -> Unit = {},
+    val onCancelAction: () -> Unit = {},
+    val onConfirmAction: () -> Unit = {},
+    val onSwapSortFilter: () -> Unit = {},
+    val onToggleFilter: () -> Unit = {},
 )
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun CardFinanceAsset(
     state: CardUiState,
-    header: CardHeader,
+    header: CardHeaderProperties,
     title: StateFlow<String> = MutableStateFlow(""),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: CardGroupVisibleDetailsViewModel = viewModel(),
 ) {
+
+    var localExpand = viewModel
+        .findExpandedState(state.id ?: UUID.randomUUID(), state.id)
+        .collectAsState()
+
     Column {
         if(title.value.isNotBlank()) {
             Text(
@@ -83,7 +109,13 @@ fun CardFinanceAsset(
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                CardHeader(properties = header)
+                CardHeader(
+                    properties = header,
+                    expand = localExpand.value.state,
+                    onExpandAction = {
+                        viewModel.toggleAllExpandedStateFromGroup(state!!.id)
+                    },
+                )
                 CardBody(items = state.list)
                 CardFooter("R$ 0,00")
             }
@@ -91,18 +123,32 @@ fun CardFinanceAsset(
     }
 }
 
-
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun CardHeader(
-    properties: CardHeader,
+    properties: CardHeaderProperties,
+    expand: Boolean = false,
+    onExpandAction: () -> Unit,
+    viewModel: CardGroupVisibleDetailsViewModel = viewModel(),
 ) {
+
     Row(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary)
             .padding(horizontal = TurdusPaddingDefault.smallPadding)
     ) {
         Spacer(modifier = Modifier.weight(1f))
+
+        IconButton(onClick = onExpandAction) {
+            Icon(
+                imageVector = if (expand) Icons.Default.UnfoldLess else Icons.Default.UnfoldMore,
+                contentDescription = stringResource(id = R.string.unfold_button_description),
+                tint = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier
+                    .size(TurdusSizeDefault.middleSize)
+            )
+        }
+
         IconButton(onClick = properties.onSwapSortFilter) {
             Icon(
                 imageVector = Icons.Default.SwapVert,
@@ -135,7 +181,9 @@ private fun CardHeader(
 }
 
 @Composable
-private fun CardBody(items: List<FinancialAsset>) {
+private fun CardBody(
+    items: List<FinancialAsset>,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -144,7 +192,7 @@ private fun CardBody(items: List<FinancialAsset>) {
     ){
         LazyColumn {
             itemsIndexed(items = items) { index, item ->
-                CardItemFinance(item)
+                CardItemFinance(item = item)
                 Spacer(modifier = Modifier.padding(TurdusPaddingDefault.smallPadding))
             }
         }
@@ -168,54 +216,185 @@ private fun CardFooter(labelFooter: String) {
     }
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-private fun CardItemFinance(financialAsserts: FinancialAsset, modifier: Modifier = Modifier) {
-    Row {
-        Column(
-            modifier = Modifier
-                .padding(horizontal = TurdusPaddingDefault.largePadding)
-                .clip(MaterialTheme.shapes.medium)
-                .background(MaterialTheme.colorScheme.secondary)
-        ) {
-            Row (
+private fun CardItemFinance(
+    item: FinancialAsset,
+    modifier: Modifier = Modifier,
+    viewModel: CardGroupVisibleDetailsViewModel = viewModel()
+) {
+
+    var localExpand = viewModel
+        .findExpandedState(item.id, item.groupId)
+        .collectAsState()
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = TurdusPaddingDefault.largePadding)
+            .clip(MaterialTheme.shapes.medium)
+            .background(MaterialTheme.colorScheme.secondary)
+    ) {
+        Row {
+            Column(
                 modifier = Modifier
-                    .padding(horizontal = TurdusPaddingDefault.largePadding)
-                    .padding(top = TurdusPaddingDefault.largePadding)
-            ){
-                Text(
-                    text = financialAsserts.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Text(
-                    text = "${financialAsserts.totalInvested}",
-                    color = MaterialTheme.colorScheme.onPrimary,
-                )
+                    .weight(1.85f)
+            ) {
+                Row (
+                    modifier = Modifier
+                        .padding(start = TurdusPaddingDefault.largePadding)
+                ){
+                    Text(
+                        text = item.name,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = "${item.totalInvested}",
+                        color = MaterialTheme.colorScheme.onPrimary,
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .padding(start = TurdusPaddingDefault.largePadding)
+                ) {
+                    Text(
+                        text = stringResource(R.string.average_price_label, item.totalInvested),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = stringResource(R.string.amount_unit_assert_label, item.amount),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
             }
             Row(
                 modifier = Modifier
-                    .padding(horizontal = TurdusPaddingDefault.largePadding)
-                    .padding(bottom = TurdusPaddingDefault.largePadding)
+                    .weight(.15f),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
             ) {
-                Text(
-                    text = stringResource(R.string.average_price_label, financialAsserts.totalInvested),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Text(
-                    text = stringResource(R.string.amount_unit_assert_label, financialAsserts.amount),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
+                IconButton(
+                    onClick = {
+                        viewModel.toggleExpandStateFrom(item.id)
+                    },
+                ) {
+                    Icon(
+                        imageVector = if(localExpand.value.state) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                        contentDescription = stringResource(id = R.string.expanded_icon_button_description),
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier
+                            .size(TurdusSizeDefault.middleSize)
+                    )
+                }
+
+            }
+        }
+
+        AnimatedVisibility(visible = localExpand.value.state) {
+
+            val currentValuation = item.valuation;
+
+            Column {
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = TurdusPaddingDefault.largePadding),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    MarkAsListItem(
+                        modifier = Modifier.weight(1.1f)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.percent_in_portfolio, item.percent),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+
+
+                    MarkAsListItem(
+                        modifier = Modifier.weight(0.9f)
+                    ) {
+                        Text(
+                            text = stringResource(
+                                R.string.percent_in_subgroup,
+                                item.groupPercentage
+                            ),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                }
+
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = TurdusPaddingDefault.largePadding),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    MarkAsListItem(
+                        modifier = Modifier.weight(1.1f)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.current_price_label, item.currentPrice),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+
+                    val valuationStatusColor =
+                        if (currentValuation == 0.0)
+                            MaterialTheme.colorScheme.onPrimary
+                        else if(currentValuation < 0f)
+                            Color.Red
+                        else Color.Green
+
+                    MarkAsListItem(
+                        modifier = Modifier.weight(0.9f)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.valuation_label, item.valuation),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                        Icon(
+                            imageVector = if( currentValuation < 0f) Icons.Default.ArrowDownward else Icons.Default.ArrowUpward,
+                            contentDescription = null,
+                            tint = valuationStatusColor,
+                        )
+                    }
+                }
             }
         }
     }
 }
-data class FloatDialogUiState(
-    val open: Boolean = false,
-)
+
+@Composable
+private fun MarkAsListItem(
+    modifier: Modifier = Modifier,
+    content: @Composable() (() -> Unit)
+) {
+    Row (
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Lens,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onPrimary,
+            modifier = Modifier
+                .size(TurdusSizeDefault.extraSmallSize)
+        )
+        Spacer(modifier = Modifier.padding(TurdusPaddingDefault.extraSmallPadding))
+        content()
+    }
+}
+
 
 @Composable
 private fun CardFilterSelector(
@@ -259,10 +438,17 @@ private fun CardFilterSelector(
 @Composable
 fun CardFinanceActivePreview() {
     TurdusPortfolioTheme {
-//        Column {
-//            CardFinanceActive(suspendTitle = "FIIs", items = DataSource.financialAsserts)
-//            Spacer(modifier = Modifier.padding(bottom = TurdusPaddingDefault.largePadding))
-//            CardFinanceActive(suspendTitle = "Ações", items = DataSource.financialAsserts)
-//        }
+        Column {
+            CardFinanceAsset(
+                state = CardUiState(
+                    id = UUID.randomUUID(),
+                    options = listOf(),
+                    list = DataSource.financialAsserts,
+                ),
+                header = CardHeaderProperties(
+                    options = listOf()
+                )
+            )
+        }
     }
 }

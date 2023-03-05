@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.updateAndGet
+import java.util.UUID
 
 class CardGroupViewModel: ViewModel() {
 
@@ -54,6 +55,7 @@ class CardGroupViewModel: ViewModel() {
 
         val cards = groups.keys.map { group ->
             CardUiState(
+                id = groups[group]?.first()?.groupId,
                 group = MutableStateFlow(group),
                 options = listOf(
                     RadioChooseButtonUIState(label = R.string.financial_asset_by_name, selected = true),
@@ -65,7 +67,7 @@ class CardGroupViewModel: ViewModel() {
             )
         }
 
-        _uiState.update { cards  }
+        _uiState.update { cards }
     }
 
 }

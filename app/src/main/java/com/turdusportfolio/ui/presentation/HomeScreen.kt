@@ -1,6 +1,5 @@
 package com.turdusportfolio.ui.presentation
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -42,7 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.turdusportfolio.R
 import com.turdusportfolio.ui.components.CardFinanceAsset
-import com.turdusportfolio.ui.components.CardHeader
+import com.turdusportfolio.ui.components.CardHeaderProperties
 import com.turdusportfolio.ui.components.PieChart
 import com.turdusportfolio.ui.components.PieChartInput
 import com.turdusportfolio.ui.components.WheelTextPicker
@@ -69,7 +68,8 @@ fun HomeScreen(
             CardFinanceAsset(
                 state = card,
                 title = card.group,
-                header = CardHeader(
+
+                header = CardHeaderProperties(
                     options = card.options,
                     visible = card.isOpen.collectAsState().value,
                     onSelectAction = { selected ->

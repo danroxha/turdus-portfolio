@@ -1,6 +1,7 @@
 package com.turdusportfolio.ui.theme
 
 import androidx.compose.ui.unit.dp
+import java.math.RoundingMode
 
 object TurdusDefault {
     val LargeContainerHeight = 80.0.dp
@@ -20,4 +21,11 @@ object TurdusPaddingDefault {
 object TurdusSizeDefault {
     val extraLargeSize = 150.dp
     val middleSize = 25.dp
+    val smallSize = 12.dp
+    val extraSmallSize = 6.dp
+}
+
+object TurdusDefaultFormat {
+    val Rounding = RoundingMode.HALF_EVEN
+    val ScaleNumber = 2
 }
