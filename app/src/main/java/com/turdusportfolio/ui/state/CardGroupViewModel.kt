@@ -62,6 +62,7 @@ class CardGroupViewModel: ViewModel() {
                     RadioChooseButtonUIState(label = R.string.financial_asset_by_price),
                     RadioChooseButtonUIState(label = R.string.financial_asset_by_percentage_in_portfolio),
                     RadioChooseButtonUIState(label = R.string.financial_asset_by_amount),
+                    RadioChooseButtonUIState(label = R.string.financial_assert_by_valuation),
                 ),
                 list = groups.getOrDefault(group, listOf())
             )

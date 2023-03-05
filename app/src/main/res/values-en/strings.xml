@@ -48,4 +48,5 @@
     <string name="valuation_label">valuation: %.2f%%</string>
     <string name="current_price_label">current price: %.2f</string>
     <string name="percent_in_subgroup">%% by group: %.2f%%</string>
+    <string name="financial_assert_by_valuation">valuation</string>
 </resources>
