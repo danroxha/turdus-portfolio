@@ -10,7 +10,7 @@
     <string name="financial_asset_by_name">asset name</string>
     <string name="financial_asset_by_price">asset price</string>
     <string name="financial_asset_by_percentage_in_portfolio">% in the portolio</string>
-    <string name="percent_in_portfolio">%% in the portolio: %.2f%%</string>
+    <string name="percent_in_portfolio">%% by wallet: %.2f%%</string>
     <string name="financial_asset_by_amount">amount</string>
     <string name="goal_title_screen">Goals</string>
     <string name="add_transaction_title">Add transaction</string>
@@ -47,5 +47,5 @@
     <string name="expanded_icon_button_description">Button icon expansion or contraction</string>
     <string name="valuation_label">valuation: %.2f%%</string>
     <string name="current_price_label">current price: %.2f</string>
-    <string name="percent_in_subgroup">%% in the group: %.2f%%</string>
+    <string name="percent_in_subgroup">%% by group: %.2f%%</string>
 </resources>
