@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 import java.util.UUID
 
 data class ExpandUiState(
@@ -13,30 +14,23 @@ data class ExpandUiState(
 )
 
 class CardGroupVisibleDetailsViewModel : ViewModel() {
-    private var _uiState: MutableStateFlow<MutableMap<UUID, MutableStateFlow<ExpandUiState>>> = MutableStateFlow(mutableMapOf())
+    private val uiState: MutableMap<UUID, MutableStateFlow<ExpandUiState>> = mutableMapOf()
+    private val groups: MutableMap<UUID, MutableList<MutableStateFlow<ExpandUiState>>> = mutableMapOf()
 
-    fun registerExpandedState(id: UUID, expandedState: Boolean = false, groupId: UUID? = null): StateFlow<ExpandUiState> {
-
-        _uiState.value.putIfAbsent(id, MutableStateFlow(ExpandUiState(state = expandedState, groupId = groupId)))
-
-        return _uiState.value[id]!!.asStateFlow()
+    fun findExpandedState(
+        id: UUID,
+        groupId: UUID? = null
+    ): StateFlow<ExpandUiState> {
+        return uiState
+            .getOrDefault(
+                key = id,
+                defaultValue = registerExpandedState(stateId = id, groupId = groupId)
+            )
     }
 
-    fun findExpandedState(id: UUID, groupId: UUID? = null): StateFlow<ExpandUiState> {
-        if(!_uiState.value.containsKey(id)) {
-            return registerExpandedState(id = id, groupId = groupId)
-        }
-
-        return _uiState.value[id]!!.asStateFlow()
-    }
-
-    fun toggleExpandStateFrom(id: UUID) {
-        _uiState.update {
-            it[id]?.update {
-                it.copy(state = !it.state)
-            }
-
-            return@update it
+    fun toggleExpandStateFrom(id: UUID): ExpandUiState? {
+        return uiState[id]?.updateAndGet {
+            it.copy(state = !it.state)
         }
     }
 
@@ -44,20 +38,45 @@ class CardGroupVisibleDetailsViewModel : ViewModel() {
         if(groupId == null)
             return
 
-        toggleExpandStateFrom(groupId)
-        val groupState = findExpandedState(groupId).value
+        val currentGlobalGroupState = toggleExpandStateFrom(groupId)
 
-        _uiState.update { map ->
-            val values = map.values
-            values.forEach {state ->
-                if(state.value.groupId != groupId) {
-                    return@forEach
-                }
+        groups[groupId]?.let { group ->
+            group.forEach { state ->
                 state.update {
-                    it.copy(state = groupState.state)
+                    it.copy(state = currentGlobalGroupState?.state ?: it.state )
                 }
             }
-            return@update map
         }
+    }
+
+    private fun registerExpandedState(
+        stateId: UUID,
+        expandedState: Boolean = false,
+        groupId: UUID? = null
+    ): StateFlow<ExpandUiState> {
+        val state = MutableStateFlow(ExpandUiState(state = expandedState, groupId = groupId))
+        uiState.putIfAbsent(stateId, state)
+
+        if(groupId == null) {
+            return state.asStateFlow()
+        }
+
+        return appendStateOnGroup(state = state, groupId = groupId)
+    }
+
+    private fun appendStateOnGroup(
+        state: MutableStateFlow<ExpandUiState>,
+        groupId: UUID
+    ): StateFlow<ExpandUiState> {
+        if(!groups.containsKey(groupId)) {
+            groups.putIfAbsent(groupId, mutableListOf(state))
+            return state.asStateFlow()
+        }
+
+        groups[groupId]?.let {
+            it.add(state)
+        }
+
+        return state.asStateFlow()
     }
 }
