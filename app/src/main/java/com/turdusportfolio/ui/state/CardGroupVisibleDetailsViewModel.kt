@@ -8,11 +8,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.updateAndGet
 import java.util.UUID
 
-data class ExpandUiState(
-    var groupId: UUID? = null,
-    var state: Boolean = false
-)
-
 class CardGroupVisibleDetailsViewModel : ViewModel() {
     private val uiState: MutableMap<UUID, MutableStateFlow<ExpandUiState>> = mutableMapOf()
     private val groups: MutableMap<UUID, MutableList<MutableStateFlow<ExpandUiState>>> = mutableMapOf()
@@ -21,16 +16,44 @@ class CardGroupVisibleDetailsViewModel : ViewModel() {
         id: UUID,
         groupId: UUID? = null
     ): StateFlow<ExpandUiState> {
-        return uiState
-            .getOrDefault(
-                key = id,
-                defaultValue = registerExpandedState(stateId = id, groupId = groupId)
-            )
+        return uiState[id]?.asStateFlow() ?: registerExpandedState(stateId = id, groupId = groupId)
     }
 
     fun toggleExpandStateFrom(id: UUID): ExpandUiState? {
-        return uiState[id]?.updateAndGet {
+        var current =  uiState[id]?.updateAndGet {
             it.copy(state = !it.state)
+        }
+
+        if (isSameIds(current, id))
+            return current
+
+        emitStateGlobalStateGroup(current)
+
+        return current
+    }
+
+    private fun isSameIds(
+        current: ExpandUiState?,
+        id: UUID
+    ) = current?.groupId == id
+
+    private fun emitStateGlobalStateGroup(current: ExpandUiState?) {
+        val counter = groups[current?.groupId]?.count { it.value.state }
+
+        val closed = 0
+        val open = groups[current?.groupId]?.size
+
+        when (counter) {
+            open -> setState(current?.groupId, true)
+            closed -> setState(current?.groupId, false)
+        }
+    }
+
+    private fun setState(id: UUID?, state: Boolean) {
+        uiState[id].let {group ->
+            group?.update {
+                it.copy(state = state)
+            }
         }
     }
 
@@ -57,19 +80,22 @@ class CardGroupVisibleDetailsViewModel : ViewModel() {
         val state = MutableStateFlow(ExpandUiState(state = expandedState, groupId = groupId))
         uiState.putIfAbsent(stateId, state)
 
-        if(groupId == null) {
+        if(isInvalidOrEqualsId(groupId, stateId)) {
             return state.asStateFlow()
         }
 
         return appendStateOnGroup(state = state, groupId = groupId)
     }
 
+    private fun isInvalidOrEqualsId(groupId: UUID?, stateId: UUID) =
+        groupId == null || stateId == groupId
+
     private fun appendStateOnGroup(
         state: MutableStateFlow<ExpandUiState>,
-        groupId: UUID
+        groupId: UUID?
     ): StateFlow<ExpandUiState> {
         if(!groups.containsKey(groupId)) {
-            groups.putIfAbsent(groupId, mutableListOf(state))
+            groupId?.let { groups.putIfAbsent(it, mutableListOf(state)) }
             return state.asStateFlow()
         }
 
@@ -80,3 +106,8 @@ class CardGroupVisibleDetailsViewModel : ViewModel() {
         return state.asStateFlow()
     }
 }
+
+data class ExpandUiState(
+    var groupId: UUID? = null,
+    var state: Boolean = false
+)
