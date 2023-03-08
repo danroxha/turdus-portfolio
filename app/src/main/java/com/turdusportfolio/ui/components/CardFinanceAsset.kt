@@ -3,6 +3,11 @@ package com.turdusportfolio.ui.components
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,10 +40,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,7 +48,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.turdusportfolio.R
 import com.turdusportfolio.datasource.DataSource
@@ -55,8 +55,7 @@ import com.turdusportfolio.model.state.CardUiState
 import com.turdusportfolio.model.state.FinancialAsset
 import com.turdusportfolio.model.state.RadioChooseButtonUIState
 import com.turdusportfolio.ui.state.CardGroupVisibleDetailsViewModel
-import com.turdusportfolio.ui.theme.TurdusSizeDefault
-import com.turdusportfolio.ui.theme.TurdusPaddingDefault
+import com.turdusportfolio.ui.theme.TurdusDefault
 import com.turdusportfolio.ui.theme.TurdusPortfolioTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -98,13 +97,13 @@ fun CardFinanceAsset(
                 color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .padding(horizontal = TurdusPaddingDefault.largePadding)
+                    .padding(horizontal = TurdusDefault.Padding.large)
             )
         }
         Card(
             elevation = CardDefaults.cardElevation(6.dp),
             modifier = modifier
-                .padding(horizontal = TurdusPaddingDefault.largePadding)
+                .padding(horizontal = TurdusDefault.Padding.large)
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth()
@@ -135,7 +134,7 @@ private fun CardHeader(
     Row(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary)
-            .padding(horizontal = TurdusPaddingDefault.smallPadding)
+            .padding(horizontal = TurdusDefault.Padding.small)
     ) {
         Spacer(modifier = Modifier.weight(1f))
 
@@ -145,7 +144,7 @@ private fun CardHeader(
                 contentDescription = stringResource(id = R.string.unfold_button_description),
                 tint = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier
-                    .size(TurdusSizeDefault.middleSize)
+                    .size(TurdusDefault.Size.middle)
             )
         }
 
@@ -155,7 +154,7 @@ private fun CardHeader(
                 contentDescription = stringResource(id = R.string.swapButtonDescription),
                 tint = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier
-                    .size(TurdusSizeDefault.middleSize)
+                    .size(TurdusDefault.Size.middle)
             )
         }
 
@@ -165,7 +164,7 @@ private fun CardHeader(
                 contentDescription = stringResource(id = R.string.filterButtonDescription),
                 tint = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier
-                    .size(TurdusSizeDefault.middleSize)
+                    .size(TurdusDefault.Size.middle)
             )
         }
 
@@ -193,7 +192,7 @@ private fun CardBody(
         LazyColumn {
             itemsIndexed(items = items) { index, item ->
                 CardItemFinance(item = item)
-                Spacer(modifier = Modifier.padding(TurdusPaddingDefault.smallPadding))
+                Spacer(modifier = Modifier.padding(TurdusDefault.Padding.small))
             }
         }
     }
@@ -211,7 +210,7 @@ private fun CardFooter(labelFooter: String) {
             color = MaterialTheme.colorScheme.onPrimary,
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier
-                .padding(TurdusPaddingDefault.middlePadding)
+                .padding(TurdusDefault.Padding.middle)
         )
     }
 }
@@ -231,7 +230,7 @@ private fun CardItemFinance(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = TurdusPaddingDefault.largePadding)
+            .padding(horizontal = TurdusDefault.Padding.large)
             .clip(MaterialTheme.shapes.medium)
             .background(MaterialTheme.colorScheme.secondary)
     ) {
@@ -242,7 +241,7 @@ private fun CardItemFinance(
             ) {
                 Row (
                     modifier = Modifier
-                        .padding(start = TurdusPaddingDefault.largePadding)
+                        .padding(start = TurdusDefault.Padding.large)
                 ){
                     Text(
                         text = item.name,
@@ -257,7 +256,7 @@ private fun CardItemFinance(
                 }
                 Row(
                     modifier = Modifier
-                        .padding(start = TurdusPaddingDefault.largePadding)
+                        .padding(start = TurdusDefault.Padding.large)
                 ) {
                     Text(
                         text = stringResource(R.string.average_price_label, item.totalInvested),
@@ -288,21 +287,25 @@ private fun CardItemFinance(
                         contentDescription = stringResource(id = R.string.expanded_icon_button_description),
                         tint = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier
-                            .size(TurdusSizeDefault.middleSize)
+                            .size(TurdusDefault.Size.middle)
                     )
                 }
 
             }
         }
 
-        AnimatedVisibility(visible = localExpand.value.state) {
+        AnimatedVisibility(
+            visible = localExpand.value.state,
+            enter =  TurdusDefault.Animation.fadeInFast,
+            exit = TurdusDefault.Animation.fadeOutFast
+        ) {
 
             val currentValuation = item.valuation;
 
             Column {
                 Row(
                     modifier = Modifier
-                        .padding(horizontal = TurdusPaddingDefault.largePadding),
+                        .padding(horizontal = TurdusDefault.Padding.large),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -333,7 +336,7 @@ private fun CardItemFinance(
 
                 Row(
                     modifier = Modifier
-                        .padding(horizontal = TurdusPaddingDefault.largePadding),
+                        .padding(horizontal = TurdusDefault.Padding.large),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -388,9 +391,9 @@ private fun MarkAsListItem(
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier
-                .size(TurdusSizeDefault.extraSmallSize)
+                .size(TurdusDefault.Size.extraSmall)
         )
-        Spacer(modifier = Modifier.padding(TurdusPaddingDefault.extraSmallPadding))
+        Spacer(modifier = Modifier.padding(TurdusDefault.Padding.extraSmall))
         content()
     }
 }

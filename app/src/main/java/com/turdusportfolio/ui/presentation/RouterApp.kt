@@ -64,7 +64,7 @@ fun RouterApp(modifier: Modifier = Modifier) {
 fun BottomNavigationBar(navController: NavHostController) {
     BottomNavigation(
         modifier = Modifier.
-            height(TurdusDefault.ContainerHeight)
+            height(TurdusDefault.Container.height)
     ){
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route

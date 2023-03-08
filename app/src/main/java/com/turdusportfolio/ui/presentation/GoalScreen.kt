@@ -35,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -43,7 +42,6 @@ import com.turdusportfolio.R
 import com.turdusportfolio.model.state.GoalData
 import com.turdusportfolio.ui.state.GoalViewModel
 import com.turdusportfolio.ui.theme.TurdusDefault
-import com.turdusportfolio.ui.theme.TurdusPaddingDefault
 import com.turdusportfolio.ui.theme.TurdusPortfolioTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.lang.Float.min
@@ -67,7 +65,7 @@ fun GoalScreen(
                     titleContentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 modifier = Modifier
-                    .height(TurdusDefault.ContainerHeight)
+                    .height(TurdusDefault.Container.height)
                     .background(MaterialTheme.colorScheme.onPrimary),
                 navigationIcon = {
                     IconButton(
@@ -166,12 +164,12 @@ fun GoalItem(
                     trackColor = MaterialTheme.colorScheme.onSecondary,
                     progress = min(1f, percentage),
                     modifier = Modifier
-                        .height(TurdusPaddingDefault.middlePadding)
+                        .height(TurdusDefault.Padding.middle)
                         .clip(MaterialTheme.shapes.medium)
                         .weight(2f)
 
                 )
-                Spacer(modifier = Modifier.padding(horizontal = TurdusPaddingDefault.smallPadding))
+                Spacer(modifier = Modifier.padding(horizontal = TurdusDefault.Padding.small))
                 Text(
                     text = "${goal.percentage}",
                     color = MaterialTheme.colorScheme.onPrimary,

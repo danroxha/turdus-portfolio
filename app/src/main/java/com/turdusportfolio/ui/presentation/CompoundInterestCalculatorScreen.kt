@@ -59,7 +59,6 @@ import com.turdusportfolio.R
 import com.turdusportfolio.ui.components.PieChartInput
 import com.turdusportfolio.ui.components.PieChartSimple
 import com.turdusportfolio.ui.theme.TurdusDefault
-import com.turdusportfolio.ui.theme.TurdusPaddingDefault
 import com.turdusportfolio.ui.theme.TurdusPortfolioTheme
 import java.math.BigDecimal
 
@@ -84,7 +83,7 @@ fun CompoundInterestCalculatorScreen(
                     titleContentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 modifier = Modifier
-                    .height(TurdusDefault.ContainerHeight)
+                    .height(TurdusDefault.Container.height)
                     .background(MaterialTheme.colorScheme.onPrimary),
                 navigationIcon = {
                     IconButton(
@@ -120,7 +119,7 @@ fun CompoundInterestCalculatorScreen(
             ) {
                 Row(
                     modifier = Modifier
-                        .padding(all = TurdusPaddingDefault.middlePadding),
+                        .padding(all = TurdusDefault.Padding.middle),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Icon(imageVector = Icons.Default.TouchApp, contentDescription = null)
@@ -133,9 +132,9 @@ fun CompoundInterestCalculatorScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        start = TurdusPaddingDefault.middlePadding,
-                        top = paddingValues.calculateTopPadding() + TurdusPaddingDefault.middlePadding,
-                        end = TurdusPaddingDefault.middlePadding
+                        start = TurdusDefault.Padding.middle,
+                        top = paddingValues.calculateTopPadding() + TurdusDefault.Padding.middle,
+                        end = TurdusDefault.Padding.middle
                     ),
             ){
                 Column {
@@ -190,7 +189,7 @@ fun CompoundInterestCalculatorScreen(
 
                         Spacer(
                             modifier = Modifier
-                                .padding(horizontal = TurdusPaddingDefault.middlePadding)
+                                .padding(horizontal = TurdusDefault.Padding.middle)
                         )
 
                         TextFieldAndLabel(
@@ -222,7 +221,7 @@ fun CompoundInterestCalculatorScreen(
                             modifier = Modifier
                                 .weight(1f)
                         )
-                        Spacer(modifier = Modifier.padding(horizontal = TurdusPaddingDefault.middlePadding))
+                        Spacer(modifier = Modifier.padding(horizontal = TurdusDefault.Padding.middle))
                         TextFieldAndLabel(
                             text = "Inicio",
                             placeholder = "12/30/2022",
@@ -237,10 +236,10 @@ fun CompoundInterestCalculatorScreen(
                         )
                     }
                     
-                    Spacer(modifier = Modifier.padding(vertical = TurdusPaddingDefault.middlePadding))
+                    Spacer(modifier = Modifier.padding(vertical = TurdusDefault.Padding.middle))
                 }
 
-                Spacer(modifier = Modifier.padding(vertical = TurdusPaddingDefault.middlePadding))
+                Spacer(modifier = Modifier.padding(vertical = TurdusDefault.Padding.middle))
 
                 Divider(
                     color = MaterialTheme.colorScheme.onPrimary.copy(
@@ -265,7 +264,7 @@ fun CompoundInterestCalculatorScreen(
                                     tint = MaterialTheme.colorScheme.onPrimary,
                                 )
 
-                                Spacer(modifier = Modifier.padding(horizontal = TurdusPaddingDefault.smallPadding))
+                                Spacer(modifier = Modifier.padding(horizontal = TurdusDefault.Padding.small))
 
                                 Text(
                                     text = stringResource(R.string.result),
@@ -280,11 +279,11 @@ fun CompoundInterestCalculatorScreen(
                             ) {
                                 CardResult(title = stringResource(R.string.final_total_amount), subtitle = "R$ 80.291,29", modifier = Modifier.weight(1f))
 
-                                Spacer(modifier = Modifier.padding(horizontal = TurdusPaddingDefault.smallPadding))
+                                Spacer(modifier = Modifier.padding(horizontal = TurdusDefault.Padding.small))
 
                                 CardResult(title = stringResource(R.string.total_amount_invested), subtitle = "R$ 65.000,00", modifier = Modifier.weight(1f))
 
-                                Spacer(modifier = Modifier.padding(horizontal = TurdusPaddingDefault.smallPadding))
+                                Spacer(modifier = Modifier.padding(horizontal = TurdusDefault.Padding.small))
 
                                 CardResult(title = stringResource(R.string.total_in_interest), subtitle = "R$ 15.291,29", modifier = Modifier.weight(1f))
 
@@ -353,7 +352,7 @@ fun CardResult(title: String, subtitle: String, modifier: Modifier = Modifier) {
                 contentColor = MaterialTheme.colorScheme.onPrimary,
             ),
         modifier = modifier
-            .padding(vertical = TurdusPaddingDefault.smallPadding, horizontal = TurdusPaddingDefault.extraSmallPadding)
+            .padding(vertical = TurdusDefault.Padding.small, horizontal = TurdusDefault.Padding.extraSmall)
             .height(80.dp)
     ) {
         Column(
@@ -385,7 +384,7 @@ fun TableHeader() {
     Row(
         modifier = Modifier
             .background(color = MaterialTheme.colorScheme.primary)
-            .height(TurdusDefault.LargeHeight)
+            .height(TurdusDefault.Container.largeHeight)
             .clip(shape = MaterialTheme.shapes.medium)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -437,7 +436,7 @@ fun TableHeader() {
 fun TableRow(item: CompoundInterestSummary) {
     Row(
         modifier = Modifier
-            .height(TurdusDefault.LargeHeight)
+            .height(TurdusDefault.Container.largeHeight)
             .fillMaxWidth(),
 
     ) {
@@ -465,7 +464,7 @@ fun TableRow(item: CompoundInterestSummary) {
             textAlign = TextAlign.End,
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier
-                .padding(end = TurdusPaddingDefault.smallPadding)
+                .padding(end = TurdusDefault.Padding.small)
                 .weight(1f)
         )
 
@@ -484,7 +483,7 @@ fun TableRow(item: CompoundInterestSummary) {
             textAlign = TextAlign.End,
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier
-                .padding(end = TurdusPaddingDefault.smallPadding)
+                .padding(end = TurdusDefault.Padding.small)
                 .weight(1f)
         )
     }

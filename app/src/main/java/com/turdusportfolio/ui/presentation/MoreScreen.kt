@@ -27,7 +27,7 @@ fun MoreScreen() {
         topBar = {
             TopAppBar(
                 modifier = Modifier
-                    .height(TurdusDefault.ContainerHeight)
+                    .height(TurdusDefault.Container.height)
                     .background(MaterialTheme.colorScheme.onPrimary)
                 ,
                 colors = TopAppBarDefaults.smallTopAppBarColors(

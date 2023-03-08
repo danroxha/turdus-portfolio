@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -43,9 +42,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.turdusportfolio.R
 import com.turdusportfolio.ui.theme.TurdusDefault
-import com.turdusportfolio.ui.theme.TurdusPaddingDefault
 import com.turdusportfolio.ui.theme.TurdusPortfolioTheme
-import com.turdusportfolio.ui.theme.TurdusSizeDefault
+
 
 enum class ToolsRouter(val title: String) {
     CompoundInterestCalculatorScreen(title = "compound interest calculator"),
@@ -86,7 +84,7 @@ fun ToolsItemsSelectorScreen(
                     titleContentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 modifier = Modifier
-                    .height(TurdusDefault.ContainerHeight)
+                    .height(TurdusDefault.Container.height)
                     .background(MaterialTheme.colorScheme.onPrimary),
                 title = {
                     Row(
@@ -151,9 +149,9 @@ fun ToolsItemsSelectorScreen(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize(),
-            horizontalArrangement = Arrangement.spacedBy(TurdusPaddingDefault.middlePadding),
-            verticalArrangement = Arrangement.spacedBy(TurdusPaddingDefault.middlePadding),
-            contentPadding = PaddingValues(TurdusPaddingDefault.middlePadding)
+            horizontalArrangement = Arrangement.spacedBy(TurdusDefault.Padding.middle),
+            verticalArrangement = Arrangement.spacedBy(TurdusDefault.Padding.middle),
+            contentPadding = PaddingValues(TurdusDefault.Padding.middle)
         ) {
 
             itemsIndexed(items = toolsCard) {index, details ->
@@ -180,7 +178,7 @@ fun CardTool(
 ) {
     Button(
         modifier = modifier
-            .size(TurdusSizeDefault.extraLargeSize),
+            .size(TurdusDefault.Size.extraLarge),
         onClick = details.onClick,
         shape = MaterialTheme.shapes.medium,
     ) {
@@ -190,7 +188,7 @@ fun CardTool(
            modifier = Modifier
                .fillMaxSize()
                .background(MaterialTheme.colorScheme.primary)
-               .padding(TurdusPaddingDefault.middlePadding)
+               .padding(TurdusDefault.Padding.middle)
        ) {
            Icon(
                imageVector = details.imageVector,

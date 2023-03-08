@@ -1,6 +1,6 @@
 package com.turdusportfolio.model.state
 
-import com.turdusportfolio.ui.theme.TurdusDefaultFormat
+import com.turdusportfolio.ui.theme.TurdusDefault
 import java.math.BigDecimal
 import java.text.NumberFormat
 import java.util.Currency
@@ -30,7 +30,7 @@ data class FinancialAsset(
 
     val currentPrice: Double
         get() = currentPriceDecimal
-            .setScale(TurdusDefaultFormat.ScaleNumber, TurdusDefaultFormat.Rounding)
+            .setScale(TurdusDefault.Format.ScaleNumber, TurdusDefault.Format.Rounding)
             .toDouble()
     val valuation: Double
         get() = currentPriceDecimal

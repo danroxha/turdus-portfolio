@@ -46,7 +46,7 @@ import com.turdusportfolio.ui.components.PieChart
 import com.turdusportfolio.ui.components.PieChartInput
 import com.turdusportfolio.ui.components.WheelTextPicker
 import com.turdusportfolio.ui.state.CardGroupViewModel
-import com.turdusportfolio.ui.theme.TurdusPaddingDefault
+import com.turdusportfolio.ui.theme.TurdusDefault
 
 @Composable
 fun HomeScreen(
@@ -89,7 +89,7 @@ fun HomeScreen(
                 ),
                 modifier = Modifier
                     .padding(
-                        bottom = TurdusPaddingDefault.middlePadding,
+                        bottom = TurdusDefault.Padding.middle,
                     )
             )
         }
@@ -106,8 +106,8 @@ fun GraphComponent(
     Column(
         modifier = Modifier
             .padding(
-                horizontal = TurdusPaddingDefault.middlePadding,
-                vertical = TurdusPaddingDefault.smallPadding
+                horizontal = TurdusDefault.Padding.middle,
+                vertical = TurdusDefault.Padding.small
             )
             .clip(MaterialTheme.shapes.medium)
             .height(400.dp)

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,10 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.turdusportfolio.ui.theme.TurdusDefault
-import com.turdusportfolio.ui.theme.TurdusPaddingDefault
 
 
 data class MenuItem(
@@ -82,7 +79,7 @@ fun BottomNavigationItem(
                 indication = null,
                 onClick = onClick
             )
-            .width(TurdusDefault.ContainerWidth),
+            .width(TurdusDefault.Container.width),
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -95,7 +92,7 @@ fun BottomNavigationItem(
                     .fillMaxWidth()
                     .clip(MaterialTheme.shapes.extraLarge)
                     .background(color = colorsSchemaSelected)
-                    .padding(horizontal = TurdusPaddingDefault.largePadding, vertical = TurdusPaddingDefault.extraSmallPadding)
+                    .padding(horizontal = TurdusDefault.Padding.large, vertical = TurdusDefault.Padding.extraSmall)
 
             )
             if(label.isNotBlank()) {

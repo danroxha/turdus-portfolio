@@ -32,7 +32,7 @@ fun AddTransactionScreen() {
         topBar = {
             TopAppBar(
                 modifier = Modifier
-                    .height(TurdusDefault.ContainerHeight),
+                    .height(TurdusDefault.Container.height),
                 title = {
                     Row(
                         modifier = Modifier

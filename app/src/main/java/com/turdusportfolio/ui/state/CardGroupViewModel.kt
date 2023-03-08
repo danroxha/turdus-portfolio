@@ -5,11 +5,13 @@ import com.turdusportfolio.R
 import com.turdusportfolio.datasource.DataSource
 import com.turdusportfolio.model.state.CardUiState
 import com.turdusportfolio.model.state.RadioChooseButtonUIState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.updateAndGet
+import kotlinx.coroutines.withContext
 import java.util.UUID
 
 class CardGroupViewModel: ViewModel() {
@@ -49,7 +51,9 @@ class CardGroupViewModel: ViewModel() {
         }
     }
 
+
     private fun loadCard() {
+
         val groups = DataSource.financialAsserts
             .groupBy { it.group }
 
