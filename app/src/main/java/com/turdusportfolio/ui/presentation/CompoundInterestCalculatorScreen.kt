@@ -29,14 +29,11 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -56,6 +53,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.turdusportfolio.R
+import com.turdusportfolio.ui.components.CenterAlignedTopBar
+import com.turdusportfolio.ui.components.NavigationIconButton
 import com.turdusportfolio.ui.components.PieChartInput
 import com.turdusportfolio.ui.components.PieChartSimple
 import com.turdusportfolio.ui.theme.TurdusDefault
@@ -77,38 +76,19 @@ fun CompoundInterestCalculatorScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+            CenterAlignedTopBar(
+                navigationIconButton = NavigationIconButton(
+                    onClick = previousAction,
+                    icon = Icons.Filled.ArrowBack,
+                    contentDescription = stringResource(R.string.arrow_back_icon_button),
                 ),
-                modifier = Modifier
-                    .height(TurdusDefault.Container.height)
-                    .background(MaterialTheme.colorScheme.onPrimary),
-                navigationIcon = {
-                    IconButton(
-                        onClick = previousAction) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.arrow_back_icon_button),
-                            tint = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-                },
                 title = {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        Text(
-                            text = stringResource(R.string.compound_interest_calculator),
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onPrimary,
-                        )
-                    }
-                },
+                    Text(
+                        text = stringResource(R.string.compound_interest_calculator),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                    )
+                }
             )
         },
         floatingActionButton =  {

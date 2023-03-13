@@ -1,11 +1,9 @@
 package com.turdusportfolio.ui.presentation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,8 +21,6 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -40,6 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.turdusportfolio.R
 import com.turdusportfolio.model.state.GoalData
+import com.turdusportfolio.ui.components.CenterAlignedTopBar
+import com.turdusportfolio.ui.components.NavigationIconButton
 import com.turdusportfolio.ui.state.GoalViewModel
 import com.turdusportfolio.ui.theme.TurdusDefault
 import com.turdusportfolio.ui.theme.TurdusPortfolioTheme
@@ -59,38 +57,19 @@ fun GoalScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+            CenterAlignedTopBar(
+                navigationIconButton = NavigationIconButton(
+                    onClick = previousAction,
+                    icon = Icons.Filled.ArrowBack,
+                    contentDescription = stringResource(id = R.string.arrow_back_icon_button),
                 ),
-                modifier = Modifier
-                    .height(TurdusDefault.Container.height)
-                    .background(MaterialTheme.colorScheme.onPrimary),
-                navigationIcon = {
-                    IconButton(
-                        onClick = previousAction) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.arrow_back_icon_button),
-                            tint = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-                },
                 title = {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        Text(
-                            text = stringResource(R.string.goal_title_screen),
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onPrimary,
-                        )
-                    }
-                },
+                    Text(
+                        text = stringResource(R.string.goal_title_screen),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                    )
+                }
             )
         },
         floatingActionButton = {
