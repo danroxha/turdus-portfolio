@@ -45,7 +45,7 @@
     <string name="more">Mais</string>
     <string name="unfold_button_description">"Icone do botão expansão ou contração "</string>
     <string name="expanded_icon_button_description">"Icone do botão expansão ou contração "</string>
-    <string name="valuation_label">valorização: %.2f%%</string>
+    <string name="valuation_label">valorização: </string>
     <string name="current_price_label">Preço atual: %.2f</string>
     <string name="percent_in_subgroup">%% por grupo: %.2f%%</string>
     <string name="financial_assert_by_valuation">valorização</string>

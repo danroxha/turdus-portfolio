@@ -48,6 +48,6 @@
     <string name="more">More</string>
     <string name="unfold_button_description">Button icon expansion or contraction</string>
     <string name="expanded_icon_button_description">Button icon expansion or contraction</string>
-    <string name="valuation_label">valuation: %.2f%%</string>
+    <string name="valuation_label">valuation: </string>
     <string name="current_price_label">current price: %.2f</string>
 </resources>

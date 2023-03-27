@@ -13,10 +13,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
@@ -40,6 +42,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -96,14 +100,16 @@ fun CardFinanceAsset(
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier
+                modifier = modifier
                     .padding(horizontal = TurdusDefault.Padding.large)
             )
         }
         Card(
-            elevation = CardDefaults.cardElevation(6.dp),
             modifier = modifier
-                .padding(horizontal = TurdusDefault.Padding.large)
+                .background(MaterialTheme.colorScheme.secondary),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.secondary,
+            )
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth()
@@ -128,12 +134,12 @@ private fun CardHeader(
     properties: CardHeaderProperties,
     expand: Boolean = false,
     onExpandAction: () -> Unit,
-    viewModel: CardGroupVisibleDetailsViewModel = viewModel(),
+    modifier: Modifier = Modifier
 ) {
 
     Row(
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.primary)
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.secondary)
             .padding(horizontal = TurdusDefault.Padding.small)
     ) {
         Spacer(modifier = Modifier.weight(1f))
@@ -187,7 +193,6 @@ private fun CardBody(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = MIN_HEIGHT_CARD_FINANCE, max = MAX_HEIGHT_CARD_FINANCE)
-            .background(MaterialTheme.colorScheme.primary)
     ){
         LazyColumn {
             itemsIndexed(items = items) { index, item ->
@@ -203,7 +208,7 @@ private fun CardFooter(labelFooter: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.onSecondary)
+            .background(MaterialTheme.colorScheme.secondary)
     ) {
         Text(
             text = labelFooter,
@@ -227,14 +232,30 @@ private fun CardItemFinance(
         .findExpandedState(item.id, item.groupId)
         .collectAsState()
 
+    val currentValuation = item.valuation;
+
+    val valuationStatusColor =
+        if (currentValuation == 0.0)
+            MaterialTheme.colorScheme.onPrimary
+        else if(currentValuation < 0f)
+            Color.Red
+        else Color.Green
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = TurdusDefault.Padding.large)
-            .clip(MaterialTheme.shapes.medium)
             .background(MaterialTheme.colorScheme.secondary)
     ) {
-        Row {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = if( currentValuation < 0f) Icons.Default.ArrowDownward else Icons.Default.ArrowUpward,
+                contentDescription = null,
+                tint = valuationStatusColor,
+                modifier = Modifier
+                    .width(TurdusDefault.Size.middle)
+            )
             Column(
                 modifier = Modifier
                     .weight(1.85f)
@@ -302,7 +323,10 @@ private fun CardItemFinance(
 
             val currentValuation = item.valuation;
 
-            Column {
+            Column(
+                modifier = Modifier
+                    .padding(start = TurdusDefault.Size.middle)
+            ) {
                 Row(
                     modifier = Modifier
                         .padding(horizontal = TurdusDefault.Padding.large),
@@ -361,14 +385,15 @@ private fun CardItemFinance(
                         modifier = Modifier.weight(0.9f)
                     ) {
                         Text(
-                            text = stringResource(R.string.valuation_label, item.valuation),
+                            text = stringResource(R.string.valuation_label),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onPrimary
                         )
-                        Icon(
-                            imageVector = if( currentValuation < 0f) Icons.Default.ArrowDownward else Icons.Default.ArrowUpward,
-                            contentDescription = null,
-                            tint = valuationStatusColor,
+                        Text(
+                            text = "${item.valuation}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = valuationStatusColor,
                         )
                     }
                 }
@@ -449,8 +474,9 @@ fun CardFinanceActivePreview() {
                     list = DataSource.financialAsserts,
                 ),
                 header = CardHeaderProperties(
-                    options = listOf()
-                )
+                    options = listOf(),
+                    visible = false
+                ),
             )
         }
     }
