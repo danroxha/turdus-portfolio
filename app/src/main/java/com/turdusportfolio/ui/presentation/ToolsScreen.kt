@@ -222,7 +222,7 @@ fun CardToolPreview() {
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 fun ToolsScreenPreview() {
     TurdusPortfolioTheme {
         ToolsScreen()

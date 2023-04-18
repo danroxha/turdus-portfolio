@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.turdusportfolio.R
@@ -47,6 +48,7 @@ import com.turdusportfolio.ui.components.PieChartInput
 import com.turdusportfolio.ui.components.WheelTextPicker
 import com.turdusportfolio.ui.state.CardGroupViewModel
 import com.turdusportfolio.ui.theme.TurdusDefault
+import com.turdusportfolio.ui.theme.TurdusPortfolioTheme
 
 @Composable
 fun HomeScreen(
@@ -323,6 +325,14 @@ fun SelectWallet() {
                 }
             )
         }
+    }
+}
+
+@Composable
+@Preview(showSystemUi = true, locale = "pt-rBR")
+fun HomeScreenPreview() {
+    TurdusPortfolioTheme {
+        HomeScreen()
     }
 }
 

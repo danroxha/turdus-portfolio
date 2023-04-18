@@ -21,9 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.turdusportfolio.R
 import com.turdusportfolio.ui.theme.TurdusDefault
+import com.turdusportfolio.ui.theme.TurdusPortfolioTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,5 +65,13 @@ fun AddTransactionScreen() {
         },
     ) {
         println(it)
+    }
+}
+
+@Composable
+@Preview(showSystemUi = true)
+fun AddTransactionScreenPreview() {
+    TurdusPortfolioTheme {
+        AddTransactionScreen()
     }
 }

@@ -552,7 +552,7 @@ fun TextFieldAndLabel(
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 fun CompoundInterestCalculatorScreenPreview() {
     TurdusPortfolioTheme {
         CompoundInterestCalculatorScreen()

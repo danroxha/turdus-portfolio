@@ -192,7 +192,7 @@ fun GoalScreenPreview3() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 fun GoalScreenPreview() {
     TurdusPortfolioTheme {
         GoalScreen()
