@@ -2,6 +2,7 @@ package com.turdusportfolio.ui.state
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,7 +31,7 @@ class CardGroupVisibleDetailsViewModel : ViewModel() {
         if (isSameIds(current, id))
             return current
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             emitStateGlobalStateGroup(current)
         }
 
@@ -63,7 +64,7 @@ class CardGroupVisibleDetailsViewModel : ViewModel() {
     }
 
     fun toggleAllExpandedStateFromGroup(groupId: UUID?) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             if(groupId == null)
                 return@launch
 
@@ -71,8 +72,10 @@ class CardGroupVisibleDetailsViewModel : ViewModel() {
 
             groups[groupId]?.let { group ->
                 group.forEach { state ->
-                    state.update {
-                        it.copy(state = currentGlobalGroupState?.state ?: it.state )
+                    launch(Dispatchers.Default) {
+                        state.update {
+                            it.copy(state = currentGlobalGroupState?.state ?: it.state )
+                        }
                     }
                 }
             }

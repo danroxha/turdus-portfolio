@@ -93,19 +93,21 @@ fun CardFinanceAsset(
         .findExpandedState(state.id ?: UUID.randomUUID(), state.id)
         .collectAsState()
 
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         if(title.value.isNotBlank()) {
             Text(
                 text = title.value,
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold,
-                modifier = modifier
+                modifier = Modifier
                     .padding(horizontal = TurdusDefault.Padding.large)
             )
         }
         Card(
-            modifier = modifier
+            modifier = Modifier
                 .background(MaterialTheme.colorScheme.secondary),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.secondary,

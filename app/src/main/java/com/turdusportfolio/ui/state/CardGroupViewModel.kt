@@ -1,6 +1,7 @@
 package com.turdusportfolio.ui.state
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.turdusportfolio.R
 import com.turdusportfolio.datasource.DataSource
 import com.turdusportfolio.model.state.CardUiState
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.updateAndGet
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
 
