@@ -90,7 +90,7 @@ fun CardFinanceAsset(
 ) {
 
     var localExpand = viewModel
-        .findExpandedState(state.id ?: UUID.randomUUID(), state.id)
+        .findExpandedState(state.id ?: UUID.randomUUID(), groupId = state.id)
         .collectAsState()
 
     Column(

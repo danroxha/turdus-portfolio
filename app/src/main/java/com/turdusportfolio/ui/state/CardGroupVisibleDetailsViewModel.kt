@@ -87,7 +87,13 @@ class CardGroupVisibleDetailsViewModel : ViewModel() {
         expandedState: Boolean = false,
         groupId: UUID? = null
     ): StateFlow<ExpandUiState> {
-        val state = MutableStateFlow(ExpandUiState(state = expandedState, groupId = groupId))
+        var currentExpandState = expandedState
+        if(groupId?.equals(stateId) == false) {
+            var currentGroupState = findExpandedState(id = groupId)
+            currentExpandState = currentGroupState.value.state
+        }
+
+        val state = MutableStateFlow(ExpandUiState(state = currentExpandState, groupId = groupId))
         uiState.putIfAbsent(stateId, state)
 
         if(isInvalidOrEqualsId(groupId, stateId)) {
