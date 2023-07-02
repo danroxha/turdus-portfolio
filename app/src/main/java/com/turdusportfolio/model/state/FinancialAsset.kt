@@ -19,9 +19,9 @@ data class FinancialAsset(
     val percent: Float = 0f,
     val percentInGroup: Float = 0f,
     val groupPercentage: Float = 0f,
+    val totalInvestedDecimal: BigDecimal = BigDecimal(0),
     private val averagePriceDecimal: BigDecimal = BigDecimal(0),
     private val currentPriceDecimal: BigDecimal = BigDecimal(0),
-    private val totalInvestedDecimal: BigDecimal = BigDecimal(0),
 ) {
     val totalInvested: String
         get() = totalInvestedDecimal.toCurrency()

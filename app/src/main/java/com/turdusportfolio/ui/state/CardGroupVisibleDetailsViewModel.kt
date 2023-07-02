@@ -64,7 +64,7 @@ class CardGroupVisibleDetailsViewModel : ViewModel() {
     }
 
     fun toggleAllExpandedStateFromGroup(groupId: UUID?) {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             if(groupId == null)
                 return@launch
 

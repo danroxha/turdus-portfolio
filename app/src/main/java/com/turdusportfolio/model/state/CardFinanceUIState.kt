@@ -10,5 +10,6 @@ data class CardUiState(
     val group: MutableStateFlow<String> = MutableStateFlow("Default"),
     val options:  List<RadioChooseButtonUIState>,
     val list: List<FinancialAsset> =  listOf(),
+    val total: String = "",
     val isOpen: MutableStateFlow<Boolean> = MutableStateFlow(false),
 )

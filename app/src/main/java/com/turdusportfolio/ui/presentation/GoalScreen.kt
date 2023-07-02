@@ -53,7 +53,7 @@ fun GoalScreen(
 ) {
 
     val goalViewModel: GoalViewModel = viewModel()
-    val uiState = goalViewModel.uiState.collectAsState()
+    val uiState by goalViewModel.uiState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -85,7 +85,7 @@ fun GoalScreen(
                 Modifier.padding(padding)
             ) {
 
-                items(items = uiState.value) { goal ->
+                items(items = uiState) { goal ->
                     GoalItem(
                         goal = goal,
                         editAction = {},

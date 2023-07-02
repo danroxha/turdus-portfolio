@@ -6,6 +6,7 @@ import com.turdusportfolio.R
 import com.turdusportfolio.datasource.DataSource
 import com.turdusportfolio.model.state.CardUiState
 import com.turdusportfolio.model.state.RadioChooseButtonUIState
+import com.turdusportfolio.utils.toCurrency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,6 +15,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Currency
+import java.util.Locale
 import java.util.UUID
 
 class CardGroupViewModel: ViewModel() {
@@ -60,9 +63,18 @@ class CardGroupViewModel: ViewModel() {
             .groupBy { it.group }
 
         val cards = groups.keys.map { group ->
+            val c = groups[group]
+            val groupId  = groups[group]?.first()?.groupId
+            val currency = groups[group]?.first()?.currency ?: Currency.getInstance(Locale.getDefault())
+
+            val total = c
+                ?.map{it.totalInvestedDecimal}
+                ?.reduce { acc, value -> acc.add(value) }
+
             CardUiState(
-                id = groups[group]?.first()?.groupId,
+                id = groupId,
                 group = MutableStateFlow(group),
+                total = total?.toCurrency(currency) ?: " ".repeat(5),
                 options = listOf(
                     RadioChooseButtonUIState(label = R.string.financial_asset_by_name, selected = true),
                     RadioChooseButtonUIState(label = R.string.financial_asset_by_price),

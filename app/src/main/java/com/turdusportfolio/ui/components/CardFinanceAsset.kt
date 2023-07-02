@@ -3,17 +3,11 @@ package com.turdusportfolio.ui.components
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -42,11 +36,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -89,7 +81,7 @@ fun CardFinanceAsset(
     viewModel: CardGroupVisibleDetailsViewModel = viewModel(),
 ) {
 
-    var localExpand = viewModel
+    val localExpand by viewModel
         .findExpandedState(state.id ?: UUID.randomUUID(), groupId = state.id)
         .collectAsState()
 
@@ -118,13 +110,13 @@ fun CardFinanceAsset(
             ) {
                 CardHeader(
                     properties = header,
-                    expand = localExpand.value.state,
+                    expand = localExpand.state,
                     onExpandAction = {
-                        viewModel.toggleAllExpandedStateFromGroup(state!!.id)
+                        viewModel.toggleAllExpandedStateFromGroup(state.id)
                     },
                 )
                 CardBody(items = state.list)
-                CardFooter("R$ 0,00")
+                CardFooter(state.total)
             }
         }
     }
@@ -230,7 +222,7 @@ private fun CardItemFinance(
     viewModel: CardGroupVisibleDetailsViewModel = viewModel()
 ) {
 
-    var localExpand = viewModel
+    val localExpand by viewModel
         .findExpandedState(item.id, item.groupId)
         .collectAsState()
 
@@ -306,7 +298,7 @@ private fun CardItemFinance(
                     },
                 ) {
                     Icon(
-                        imageVector = if(localExpand.value.state) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                        imageVector = if(localExpand.state) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
                         contentDescription = stringResource(id = R.string.expanded_icon_button_description),
                         tint = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier
@@ -318,7 +310,7 @@ private fun CardItemFinance(
         }
 
         AnimatedVisibility(
-            visible = localExpand.value.state,
+            visible = localExpand.state,
             enter =  TurdusDefault.Animation.fadeInFast,
             exit = TurdusDefault.Animation.fadeOutFast
         ) {
