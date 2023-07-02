@@ -66,18 +66,17 @@ fun HomeScreen(
     val cardGroupViewModel: CardGroupViewModel = viewModel()
     val uiState by cardGroupViewModel.uiState.collectAsState()
 
-    Column(
-
+    LazyColumn(
         modifier = Modifier
             .wrapContentHeight()
-            .verticalScroll(rememberScrollState())
     ) {
+        item {
+            GraphComponent(
+                touchPieChartTarget = navigatePieChartTarget
+            )
+        }
 
-        GraphComponent(
-            touchPieChartTarget = navigatePieChartTarget
-        )
-
-        for(card in uiState) {
+        items(uiState) { card ->
             CardFinanceAsset(
                 state = card,
                 title = card.group,
@@ -103,10 +102,8 @@ fun HomeScreen(
                 modifier = Modifier
                     .padding(bottom = TurdusDefault.Padding.middle,)
             )
-
         }
     }
-
 }
 
 @Composable
