@@ -1,6 +1,7 @@
 package com.turdusportfolio.model.state
 
 import com.turdusportfolio.ui.theme.TurdusDefault
+import com.turdusportfolio.utils.toCurrency
 import java.math.BigDecimal
 import java.text.NumberFormat
 import java.util.Currency
@@ -23,10 +24,10 @@ data class FinancialAsset(
     private val totalInvestedDecimal: BigDecimal = BigDecimal(0),
 ) {
     val totalInvested: String
-        get() = formatter(totalInvestedDecimal)
+        get() = totalInvestedDecimal.toCurrency()
 
     val averagePrice: String
-        get() = formatter(averagePriceDecimal)
+        get() = averagePriceDecimal.toCurrency()
 
     val currentPrice: Double
         get() = currentPriceDecimal
@@ -34,14 +35,9 @@ data class FinancialAsset(
             .toDouble()
     val valuation: Double
         get() = currentPriceDecimal
-                    .minus(averagePriceDecimal)
-                    .divide(averagePriceDecimal)
-                    .multiply(ONE_HUNDRED_PERCENT)
-                    .toDouble()
+            .minus(averagePriceDecimal)
+            .divide(averagePriceDecimal)
+            .multiply(ONE_HUNDRED_PERCENT)
+            .toDouble()
 
-    private fun formatter(from: BigDecimal): String {
-        val formatter = NumberFormat.getCurrencyInstance();
-        formatter.currency = currency
-        return formatter.format(from)
-    }
 }
