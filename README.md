@@ -3,9 +3,7 @@
 
 ## Demo
 <p align="center" display="flex">
-  <img width="150px" src="screenshot/01.png" />
-  <img width="150px" src="screenshot/02.png" />
-  <img width="150px" src="screenshot/03.png" />
-  <img width="150px" src="screenshot/04.1.png" />
+  <img width="150px" src="screenshot/01.1.jpg" />
+  <img width="150px" src="screenshot/02.1.jpg" />
 </p>
 
